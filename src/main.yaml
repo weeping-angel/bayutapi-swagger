@@ -1,0 +1,86 @@
+openapi: '3.0.2'
+
+info:
+  title: Bayut API
+  version: '1.0'
+  # x-twitter: 'https://twitter.com/medium_api'
+  # x-linkedin: 'https://www.linkedin.com/company/medium-api'
+  # x-logo:
+  #   url: https://mediumapi.com/imgs/logo/logo-dark-color.svg
+  description: |
+    Bayut API is a property finder API that allows you to search for real estate properties in the UAE by scraping data from Bayut's Website (https://bayut.com).
+    
+    You can gather data related to properties, agencies, agents, developers, amenities, transactions, etc…
+  contact:
+    name: 
+    email: bayut.restapi@gmail.com
+    url: 
+
+  # termsOfService: https://mediumapi.com/terms_of_use.html
+
+
+# externalDocs:
+#   description: Read more
+#   url: 'https://mediumapi.com/documentation.html?utm_source=swagger_docs&utm_medium=external_docs&utm_campaign=api_reference'
+
+# servers:
+#   - url: https://medium2.p.rapidapi.com
+
+paths:
+
+  # /locations_search?query={query}&page={page}:
+  #   $ref: './paths/locations_search.yaml'
+
+
+
+  /property/{property_id}?langs={langs}:
+    $ref: './paths/property_info.yaml'
+
+
+
+
+  # /agencies_by_locations?loc_ids={loc_ids}&page={page}&langs={langs}:
+  #   $ref: './paths/agencies_by_locations.yaml'
+
+  # /agencies_by_name?query={query}&page={page}&langs={langs}:
+  #   $ref: './paths/agencies_by_name.yaml'
+
+  # /agency/{agency_id}?langs={langs}:
+  #   $ref: './paths/agency_info.yaml'
+
+  # /developers_search?query={query}&page={page}&langs={langs}:
+  #   $ref: './paths/developers_search.yaml'
+
+
+
+
+
+
+  # /agents_by_name?query={query}&page={page}&langs={langs}:
+  #   $ref: './paths/agents_by_name.yaml'
+
+  # /agents_by_filters?loc_ids={loc_ids}&purpose={purpose}&category={category}&page={page}&langs={langs}:
+  #   $ref: './paths/agents_by_filters.yaml'
+
+  # /agents_in_agency/{agency_id}?langs={langs}:
+  #   $ref: './paths/agents_in_agency.yaml'
+
+  # /agent/{agent_id}?langs={langs}:
+  #   $ref: './paths/agent_info.yaml'
+
+
+
+
+
+
+
+  # /amenities_search?query={query}&page={page}:
+  #   $ref: './paths/amenities_search.yaml'
+
+  
+components:
+  securitySchemes:
+    ApiKey: 
+      type: apiKey
+      in: header
+      name: x-rapidapi-key

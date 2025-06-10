@@ -1,0 +1,275 @@
+get:
+  summary: Agencies by Name
+  description: >
+    Retrieve a list of real estate agencies whose names match the specified query string.
+    This endpoint supports partial matches and returns agencies that advertise properties
+    under the provided search term. 
+  parameters:
+    - name: query
+      in: query
+      required: true
+      description: Text string to search for within agency names. Supports partial matches and is case-insensitive.
+      schema:
+        type: string
+        example: "k a"
+    - name: page
+      in: query
+      required: false
+      description: Zero-based pagination index to navigate through result pages.
+      schema:
+        type: integer
+        default: 0
+        example: 1
+    - name: langs
+      in: query
+      required: false
+      description: Comma-separated list of preferred language codes for localized data (`en`, `ar`, `ru`, `zh`).
+      schema:
+        type: string
+        
+        default: "en"
+        example: "ar"
+        style: form
+        explode: false
+  responses:
+    '200':
+      description: A paginated list of agencies matching the search query.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              results:
+                type: array
+                description: Array of agencies whose names match the given query.
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "102062"
+                      description: Unique identifier for the agency.
+                    name:
+                      type: string
+                      example: "K A Homes Properties"
+                      description: English name of the agency.
+                    name_ar:
+                      type: string
+                      example: "كي ايه هومز للعقارات"
+                      description: Arabic name of the agency.
+                    agents_count:
+                      type: integer
+                      example: 13
+                      description: Total number of agents registered under this agency.
+                    product:
+                      type: string
+                      example: "featured"
+                      description: Subscription tier or product type associated with the agency.
+                    product_score:
+                      type: number
+                      example: 1
+                      description: Numeric score indicating the agency’s performance level or plan ranking.
+                    logo:
+                      type: string
+                      example: "https://bayut-production.s3.eu-central-1.amazonaws.com/image/346903261/4409eaeff3db4950b1c49fc63d5bece5"
+                      description: URL pointing to the agency’s logo image.
+                    base_location:
+                      type: string
+                      example: "Ajman"
+                      description: The primary city or emirate where the agency is headquartered or most active.
+                    base_location_ar:
+                      type: string
+                      example: "عجمان"
+                      description: Arabic version of the agency’s main location.
+                    licenses:
+                      type: array
+                      description: Regulatory licenses held by the agency.
+                      items:
+                        type: object
+                        properties:
+                          number:
+                            type: string
+                            example: "928595"
+                            description: Official license number issued by the authority.
+                          authority:
+                            type: string
+                            example: "DED"
+                            description: Name of the licensing authority (e.g., DED, RERA).
+                    slug:
+                      type: string
+                      example: "k-a-homes-properties-102062"
+                      description: URL-friendly slug generated from the agency name and ID.
+                    phone_numbers:
+                      type: object
+                      description: Contact phone numbers for the agency.
+                      properties:
+                        phone:
+                          type: string
+                          nullable: true
+                          example: null
+                          description: Landline phone number, if available.
+                        mobile:
+                          type: string
+                          example: "+971509428641"
+                          description: Primary mobile contact number for the agency.
+                        proxy_phone:
+                          type: string
+                          nullable: true
+                          example: null
+                          description: Masked phone number for privacy.
+                    base_locations:
+                      type: array
+                      description: locations where the agency is based or prominently operates.
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 4
+                            description: Unique location identifier.
+                          name:
+                            type: string
+                            example: "Ajman"
+                            description: Name of the city or emirate.
+                          coordinates:
+                            type: object
+                            properties:
+                              lat:
+                                type: number
+                                format: float
+                                example: 25.403779108056
+                                description: Latitude of the location center point.
+                              lng:
+                                type: number
+                                format: float
+                                example: 55.540421623239
+                                description: Longitude of the location center point.
+                          full:
+                            type: string
+                            example: "UAE -> Ajman"
+                            description: Full hierarchical path of the location in English.
+                          full_ar:
+                            type: string
+                            example: "الإمارات -> عجمان"
+                            description: Full hierarchical path of the location in Arabic.
+                    contact_methods:
+                      type: array
+                      items:
+                        type: string
+                      example: ["sms", "email", "call"]
+                      description: Supported contact channels (e.g., SMS, email, call).
+                    created_at:
+                      type: string
+                      format: date-time
+                      example: "2023-02-15T10:00:24+00:00"
+                      description: Timestamp indicating when the agency was registered on the platform.
+                    stats:
+                      type: object
+                      description: Aggregated statistics and coverage details for the agency.
+                      properties:
+                        categories:
+                          type: array
+                          items:
+                            type: string
+                          example: ["Townhouses", "Penthouses", "Villas", "Apartments", "Plots"]
+                          description: Property types that the agency deals with.
+                        categories_ar:
+                          type: array
+                          items:
+                            type: string
+                          example: ["تاون هاوس", "بنتهاوس", "فلل", "شقق", "اراضي سكنية"]
+                          description: Property categories listed in Arabic.
+                        service_areas:
+                          type: array
+                          items:
+                            type: string
+                          example: ["Al Sehma", "Al Helio", "Barashi"]
+                          description: English names of all service areas covered by the agency.
+                        service_areas_ar:
+                          type: array
+                          items:
+                            type: string
+                          example: ["السحمة", "الحليو", "براشي"]
+                          description: Arabic names of all service areas covered by the agency.
+                        purposes:
+                          type: array
+                          items:
+                            type: string
+                          example: ["for-sale"]
+                          description: Purpose of listings (e.g., "for-sale", "for-rent").
+                        properties_sale_count:
+                          type: integer
+                          example: 5891
+                          description: Total count of properties the agency has listed for sale.
+                        properties_rent_count:
+                          type: integer
+                          example: 0
+                          description: Total count of properties the agency has listed for rent.
+                        properties_total_count:
+                          type: integer
+                          example: 5891
+                          description: Combined total of sale and rental property listings.
+                    agents:
+                      type: array
+                      description: Detailed list of agents working under this agency.
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            example: "2111757"
+                            description: Unique identifier for the agent.
+                          name:
+                            type: string
+                            example: "Mazin Yousif"
+                            description: Agent’s full name in English.
+                          name_ar:
+                            type: string
+                            example: "Mazin Yousif"
+                            description: Agent’s full name in Arabic.
+                          brn_number:
+                            type: string
+                            nullable: true
+                            example: "81223"
+                            description: Broker Registration Number associated with the agent.
+                          bln_number:
+                            type: string
+                            nullable: true
+                            example: null
+                            description: Business License Number linked to the agent.
+                    language_codes:
+                      type: array
+                      items:
+                        type: string
+                      example: ["ar", "en", "fr"]
+                      description: Supported languages for communications and listing details.
+                    speciality_codes:
+                      type: array
+                      items:
+                        type: string
+                      example: ["residential_leasing", "commercial_sales", "off_plan_sales"]
+                      description: Codes indicating the agency’s areas of specialization.
+                    is_featured:
+                      type: boolean
+                      example: true
+                      description: Flag indicating if the agency is marked as a featured partner.
+                    agency_sg:
+                      type: integer
+                      example: 1
+                      description: Internal scoring metric representing agency’s ranking or status.
+                    ex_status:
+                      type: boolean
+                      example: true
+                      description: Boolean flag indicating if the agency is externally verified/exclusive.
+              count:
+                type: integer
+                example: 25
+                description: Total number of agencies found matching the query.
+              query:
+                type: string
+                example: "k a"
+                description: The search string used to filter agency names.
+              page:
+                type: integer
+                example: 1
+                description: Current pagination index returned in the response.

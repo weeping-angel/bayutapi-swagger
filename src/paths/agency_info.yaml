@@ -1,0 +1,209 @@
+get:
+  summary: Agency Information
+  description: >
+    Fetch comprehensive details for a single real estate agency by its unique ID.
+    Includes description, contact information, licensing, activity statistics, and localized fields
+    based on language preferences.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Unique identifier of the agency to retrieve.
+      schema:
+        type: string
+        example: "102062"
+    - name: langs
+      in: query
+      required: false
+      description: Comma-separated list of language codes for localized fields (`en`, `ar`, `ru`, `zh`).
+      schema:
+        type: string
+        
+        default: "en"
+        example: "ru"
+        style: form
+        explode: false
+  responses:
+    '200':
+      description: Detailed agency profile including contact, licensing, and statistics.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "102062"
+                description: Unique identifier of the agency.
+              name:
+                type: string
+                example: "K A Homes Properties"
+                description: English name of the agency.
+              name_ru:
+                type: string
+                example: "K A Homes Properties"
+                description: Agency name localized in Russian if `langs=ru` is provided.
+              agents_count:
+                type: integer
+                example: 13
+                description: Total number of agents associated with this agency.
+              product:
+                type: string
+                example: "featured"
+                description: Subscription tier or service package of the agency.
+              product_score:
+                type: number
+                example: 1
+                description: Numeric score indicating the agency’s ranking or plan level.
+              logo:
+                type: string
+                example: "https://bayut-production.s3.eu-central-1.amazonaws.com/image/346903261/4409eaeff3db4950b1c49fc63d5bece5"
+                description: URL pointing to the agency’s official logo image.
+              base_location:
+                type: string
+                example: "Ajman"
+                description: Primary city or emirate where the agency is based or prominently operates.
+              base_location_ru:
+                type: string
+                example: "Аджман"
+                description: Localized name of the main location in Russian when `langs=ru` is set.
+              slug:
+                type: string
+                example: "k-a-homes-properties-102062"
+                description: URL-friendly identifier derived from agency name and ID.
+              phone_numbers:
+                type: object
+                description: Contact telephone numbers for the agency.
+                properties:
+                  phone:
+                    type: string
+                    nullable: true
+                    example: null
+                    description: Landline phone number if available.
+                  mobile:
+                    type: string
+                    example: "+971509428641"
+                    description: Primary mobile contact number for the agency.
+                  proxy_phone:
+                    type: string
+                    nullable: true
+                    example: null
+                    description: Masked phone number for privacy.
+              contact_methods:
+                type: array
+                items:
+                  type: string
+                example: ["sms", "email", "call"]
+                description: Supported communication channels (SMS, email, call, etc.).
+              description:
+                type: string
+                example: |
+                  An accredited, registered, and licensed real estate company established by K A HOMES
+                  As a leading company in the United Arab Emirates with its renewed style in real estate activity in the field of marketing and selling real estate throughout the United Arab Emirates. The company has taken great strides in its endeavor to diversify its sales field by making customers one of its top priorities in its business and then proceeding to create services according to their needs.
+                description: English-language description summarizing the agency’s background and expertise.
+              description_ru:
+                type: string
+                example: |
+                  An accredited, registered, and licensed real estate company established by K A HOMES
+                  As a leading company in the United Arab Emirates with its renewed style in real estate activity in the field of marketing and selling real estate throughout the United Arab Emirates. The company has taken great strides in its endeavor to diversify its sales field by making customers one of its top priorities in its business and then proceeding to create services according to their needs.
+                description: Russian translation of the agency’s description when `langs=ru` is provided.
+              is_featured:
+                type: boolean
+                example: true
+                description: Indicates whether the agency is highlighted as a featured partner.
+              licenses:
+                type: array
+                description: List of official licenses held by the agency.
+                items:
+                  type: object
+                  properties:
+                    number:
+                      type: string
+                      example: "928595"
+                      description: Official license number issued by the regulatory authority.
+                    authority:
+                      type: string
+                      example: "DED"
+                      description: Name of the licensing authority (e.g., DED, RERA).
+              base_locations:
+                type: array
+                description: locations where the agency is based or prominently operates.
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 4
+                      description: Unique identifier for the location.
+                    name:
+                      type: string
+                      example: "Ajman"
+                      description: English name of the location.
+                    coordinates:
+                      type: object
+                      properties:
+                        lat:
+                          type: number
+                          format: float
+                          example: 25.403779108056
+                          description: Latitude coordinate of the location.
+                        lng:
+                          type: number
+                          format: float
+                          example: 55.540421623239
+                          description: Longitude coordinate of the location.
+                    full:
+                      type: string
+                      example: "UAE -> Ajman"
+                      description: Full hierarchical path of the location in English.
+                    full_ru:
+                      type: string
+                      example: "ОАЭ -> Аджман"
+                      description: Full hierarchical path of the location in Russian when `langs=ru` is set.
+              stats:
+                type: object
+                description: Aggregated statistics and coverage metrics for the agency.
+                properties:
+                  categories:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Townhouses", "Penthouses", "Villas", "Apartments", "Plots"]
+                    description: List of property categories the agency specializes in.
+                  category_types_ru:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Таунхаусы", "Пентхаусы", "Виллы", "Апартаменты", "Участки"]
+                    description: Property category names translated into Russian when `langs=ru` is provided.
+                  service_areas:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Al Sehma", "Al Helio", "Barashi", "Al Mamzar"]
+                    description: English names of neighborhoods or districts the agency serves.
+                  service_areas_ru:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Аль Сехма", "Аль Хелио", "Бараши", "Аль Мамзар"]
+                    description: Names of service areas translated into Russian when `langs=ru` is provided.
+                  purposes:
+                    type: array
+                    items:
+                      type: string
+                    example: ["for-sale"]
+                    description: Intended listing purpose (e.g., for-sale, for-rent).
+                  properties_sale_count:
+                    type: integer
+                    example: 5891
+                    description: Total number of properties listed for sale by the agency.
+                  properties_rent_count:
+                    type: integer
+                    example: 0
+                    description: Total number of properties listed for rent by the agency.
+                  properties_total_count:
+                    type: integer
+                    example: 5891
+                    description: Combined total of sale and rental property listings.
+            

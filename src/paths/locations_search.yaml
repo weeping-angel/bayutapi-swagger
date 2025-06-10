@@ -1,0 +1,170 @@
+get:
+  summary: Locations Search
+  description: |
+    Retrieves a list of locations matching the given `query` string. Supports pagination via the `page` parameter.
+  parameters:
+    - name: query
+      in: query
+      description: The search query string to match against location names (e.g., "abu").
+      required: true
+      schema:
+        type: string
+        example: abu
+    - name: page
+      in: query
+      description: Page number for paginated results (zero-based).
+      required: false
+      schema:
+        type: integer
+        default: 0
+        example: 0
+  responses:
+    "200":
+      description: A paginated list of location objects matching the search criteria.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              results:
+                type: array
+                description: List of matching locations.
+                items:
+                  type: object
+                  description: A single location entry.
+                  properties:
+                    id:
+                      type: integer
+                      description: Unique identifier of the location.
+                      example: 87494
+                    
+                    name:
+                      type: string
+                      description: Official name of the location.
+                      example: "Abudlla Al Fahad 3 Building"
+                    level:
+                      type: string
+                      description: |
+                        The granularity level of the location (e.g., country, city, community, sub_community, cluster, building).
+                      example: building
+                      enum:
+                        - country
+                        - city
+                        - community
+                        - sub_community
+                        - cluster
+                        - building
+                    full:
+                      type: object
+                      description: The full hierarchy of this location (country → city → community → sub_community → cluster → building). 
+                      properties:
+                        country:
+                          type: object
+                          description: Country-level information.
+                          properties:
+                            id:
+                              type: integer
+                              description: Country ID.
+                              example: 1
+                            name:
+                              type: string
+                              description: Country name.
+                              example: "UAE"
+                        city:
+                          type: object
+                          description: City-level information.
+                          properties:
+                            id:
+                              type: integer
+                              description: City ID.
+                              example: 2
+                            name:
+                              type: string
+                              description: City name.
+                              example: "Dubai"
+                        community:
+                          type: object
+                          description: Community-level information (if applicable).
+                          properties:
+                            id:
+                              type: integer
+                              description: Community ID.
+                              example: 532
+                            name:
+                              type: string
+                              description: Community name.
+                              example: "Al Qusais"
+                        sub_community:
+                          type: object
+                          description: Sub-community-level information (if applicable).
+                          properties:
+                            id:
+                              type: integer
+                              description: Sub-community ID.
+                              example: 2388
+                            name:
+                              type: string
+                              description: Sub-community name.
+                              example: "Al Qusais Industrial Area"
+                        cluster:
+                          type: object
+                          description: Cluster-level information (if applicable).
+                          properties:
+                            id:
+                              type: integer
+                              description: Cluster ID.
+                              example: 5120
+                            name:
+                              type: string
+                              description: Cluster name.
+                              example: "Al Qusais Industrial 2"
+                        building:
+                          type: object
+                          description: Building-level information (if applicable).
+                          properties:
+                            id:
+                              type: integer
+                              description: Building ID.
+                              example: 87494
+                            name:
+                              type: string
+                              description: Building name.
+                              example: "Abudlla Al Fahad 3 Building"
+                    coordinates:
+                      type: object
+                      description: Geographical coordinates of the location.
+                      properties:
+                        lat:
+                          type: number
+                          format: float
+                          description: Latitude coordinate.
+                          example: 25.277729790829
+                        lng:
+                          type: number
+                          format: float
+                          description: Longitude coordinate.
+                          example: 55.385791484737
+                    completion_status:
+                      type: string
+                      description: |
+                        Development status for this location. Possible values:
+                          - ready (fully developed)
+                          - off_plan (pre-construction/off-plan)
+                          - mixed (partially developed)
+                      example: ready
+                      enum:
+                        - ready
+                        - off_plan
+                        - mixed
+              count:
+                type: integer
+                description: Total number of matching locations on that page.
+                example: 25
+              query:
+                type: string
+                description: The original search query string.
+                example: "abu"
+              page:
+                type: integer
+                description: The requested page number.
+                example: 0

@@ -1,0 +1,311 @@
+get:
+  summary: Agents by Name
+  description: >
+    Retrieve a paginated list of real estate agents whose names match the specified query string.
+    Supports partial, case-insensitive matches and returns agents active across the UAE.
+  parameters:
+    - name: query
+      in: query
+      required: true
+      description: Text string to search within agent names. Supports partial and case-insensitive matching.
+      schema:
+        type: string
+        example: "vipul"
+    - name: page
+      in: query
+      required: false
+      description: Zero-based pagination index for navigating through pages of results.
+      schema:
+        type: integer
+        default: 0
+        example: 0
+    - name: langs
+      in: query
+      required: false
+      description: Comma-separated list of language codes for localized fields (`en`, `ar`, `ru`, `zh`).
+      schema:
+        type: string
+       
+        default: "en"
+        example: "ar"
+        style: form
+        explode: false
+  responses:
+    '200':
+      description: Paginated list of agents matching the search query, with localized fields as requested.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              results:
+                type: array
+                description: Array of agent profiles matching the query.
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: "2281326"
+                      description: Unique identifier of the agent.
+                    name:
+                      type: string
+                      example: "Vipul Shrivastava"
+                      description: Agent’s full name in English.
+                    name_ar:
+                      type: string
+                      example: "Vipul Shrivastava"
+                      description: Agent’s full name in Arabic when `langs=ar` is provided.
+                    about_user:
+                      type: string
+                      example: |
+                        A visionary CEO of one of the top Real Estate agencies in the region...
+                      description: English bio summarizing the agent’s background, expertise, and values.
+                    about_user_ar:
+                      type: string
+                      example: |
+                        A visionary CEO of one of the top Real Estate agencies in the region...
+                      description: Bio translated into Arabic when `langs=ar` is provided.
+                    user_image:
+                      type: string
+                      example: "https://bayut-production.s3.eu-central-1.amazonaws.com/image/631529155/c8e502f714384c259d916cb1342cc1d9"
+                      description: URL to the agent’s profile picture.
+                    agency:
+                      type: object
+                      description: Parent agency details for the agent.
+                      properties:
+                        id:
+                          type: string
+                          example: "102421"
+                          description: Unique identifier of the affiliated agency.
+                        name:
+                          type: string
+                          example: "Avcor Real Estate"
+                          description: Agency name in English.
+                        name_ar:
+                          type: string
+                          example: "افكور العقارية"
+                          description: Agency name in Arabic when `langs=ar` is requested.
+                        licenses:
+                          type: array
+                          description: List of regulatory licenses held by the agency.
+                          items:
+                            type: object
+                            properties:
+                              number:
+                                type: string
+                                example: "1094909"
+                                description: Official license number.
+                              authority:
+                                type: string
+                                example: "DED"
+                                description: Licensing authority name.
+                        logo:
+                          type: string
+                          example: "https://bayut-production.s3.eu-central-1.amazonaws.com/image/370752609/30213c1ceb75460aa2789f76a4fe2ae9"
+                          description: URL to the agency’s logo.
+                        slug:
+                          type: string
+                          example: "avcor-real-estate-102421"
+                          description: URL-friendly identifier for the agency.
+                        phone_numbers:
+                          type: object
+                          description: Agency contact numbers.
+                          properties:
+                            phone:
+                              type: string
+                              example: "+97158232476"
+                              description: Agency landline number.
+                            mobile:
+                              type: string
+                              example: "+971582324760"
+                              description: Agency mobile number.
+                            proxy_phone:
+                              type: string
+                              nullable: true
+                              example: null
+                              description: Masked or proxy phone for privacy.
+                    avg_star_rating:
+                      type: number
+                      format: float
+                      example: 0
+                      description: Average rating based on client feedback.
+                    phone_numbers:
+                      type: object
+                      description: Agent’s personal contact details.
+                      properties:
+                        phone:
+                          type: string
+                          example: "+97158232476"
+                          description: Landline number, if available.
+                        cell:
+                          type: string
+                          example: "+971585581477"
+                          description: Mobile phone number for direct calls.
+                        whatsapp:
+                          type: string
+                          example: "+971585581477"
+                          description: WhatsApp-enabled number for messaging.
+                        proxy_phone:
+                          type: string
+                          example: "+97142477669"
+                          description: Masked landline number for privacy.
+                        proxy_mobile:
+                          type: string
+                          nullable: true
+                          example: null
+                          description: Masked mobile number for privacy.
+                        proxy_whatsapp:
+                          type: string
+                          example: "+971545695868"
+                          description: Masked WhatsApp number for anonymity.
+                        email:
+                          type: string
+                          example: "vipul@avcorrealty.com"
+                          description: Professional email address.
+                    contact_methods:
+                      type: array
+                      items:
+                        type: string
+                      example: ["email", "call", "whatsapp", "sms"]
+                      description: Supported channels to reach the agent.
+                    stats:
+                      type: object
+                      description: Performance and listing statistics.
+                      properties:
+                        total_count:
+                          type: integer
+                          example: 34
+                          description: Total properties managed by the agent.
+                        rent_count:
+                          type: integer
+                          example: 5
+                          description: Number of properties rented.
+                        sale_count:
+                          type: integer
+                          example: 29
+                          description: Number of properties sold.
+                        daily_rent_count:
+                          type: integer
+                          example: 0
+                          description: Number of daily rental bookings.
+                        check_count:
+                          type: integer
+                          example: 10
+                          description: Number of property inspections conducted.
+                        trucheck_count:
+                          type: integer
+                          example: 24
+                          description: Verified inspections via TruCheck.
+                        review_count:
+                          type: integer
+                          example: 0
+                          description: Total client reviews received.
+                    slug:
+                      type: string
+                      example: "vipul-shrivastava-2281326"
+                      description: URL-friendly slug generated from agent’s name and ID.
+                    service_areas:
+                      type: array
+                      items:
+                        type: string
+                      example: ["District One Villas", "The Valley by Emaar", "Sobha Hartland"]
+                      description: English names of neighborhoods the agent serves.
+                    service_areas_ar:
+                      type: array
+                      items:
+                        type: string
+                      example: ["فلل ديستريكت 1", "ذا فالي من اعمار", "شوبا هارتلاند"]
+                      description: Service areas translated into Arabic when `langs=ar` is provided.
+                    specialities:
+                      type: array
+                      items:
+                        type: string
+                      example: ["Residential Sales", "Commercial Sales"]
+                      description: Agent’s areas of expertise in English.
+                    specialities_ar:
+                      type: array
+                      items:
+                        type: string
+                      example: ["بيع العقارات السكنية", "بيع العقارات التجارية"]
+                      description: Specialities translated into Arabic when `langs=ar` is provided.
+                    speciality_codes:
+                      type: array
+                      items:
+                        type: string
+                      example: ["residential_sales", "commercial_sales"]
+                      description: Codes representing agent specializations.
+                    user_langs:
+                      type: array
+                      items:
+                        type: string
+                      example: ["English", "Hindi"]
+                      description: Languages spoken by the agent in English.
+                    user_langs_ar:
+                      type: array
+                      items:
+                        type: string
+                      example: ["الإنجليزية", "الهندية"]
+                      description: Languages spoken by the agent translated into Arabic.
+                    language_codes:
+                      type: array
+                      items:
+                        type: string
+                      example: ["en", "hi"]
+                      description: ISO codes of languages supported by the agent.
+                    is_tru_broker:
+                      type: boolean
+                      example: true
+                      description: Indicates if the agent is a verified TruBroker.
+                    total_xp:
+                      type: integer
+                      example: 3620
+                      description: Total experience points earned based on performance.
+                    is_highly_responsive:
+                      type: boolean
+                      example: true
+                      description: Flag indicating the agent’s responsiveness rank.
+                    is_quality_lister:
+                      type: boolean
+                      example: true
+                      description: Indicates consistent high-quality listings by the agent.
+                    has_badges:
+                      type: boolean
+                      example: true
+                      description: Whether the agent has earned platform badges or awards.
+                    active_in_emirate:
+                      type: string
+                      example: "Dubai"
+                      description: Primary emirate where the agent is currently active.
+                    leaderboard_filters:
+                      type: object
+                      description: Filters used to rank the agent on public leaderboards.
+                      properties:
+                        location:
+                          type: string
+                          example: "/dubai/tilal-al-ghaf"
+                          description: Path of the agent’s main service location.
+                        category:
+                          type: string
+                          example: "residential"
+                          description: Property category used for leaderboard filtering.
+                        purpose:
+                          type: string
+                          example: "for-sale"
+                          description: Listing purpose for leaderboard context.
+                        completion_status:
+                          type: string
+                          example: "under-construction"
+                          description: Listing completion status filter.
+              count:
+                type: integer
+                example: 4
+                description: Total number of agents found matching the query.
+              query:
+                type: string
+                example: "vipul"
+                description: The search string used to filter agent names.
+              page:
+                type: integer
+                example: 0
+                description: Current zero-based pagination index in the response.

@@ -1,0 +1,335 @@
+get:
+  summary: Agent Information
+  description: >
+    Get comprehensive information for a single real estate agent by their unique ID.
+    Includes personal bio, experience, contact details, agency affiliation, performance statistics,
+    and localized fields based on language preferences.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Unique identifier of the agent to retrieve.
+      schema:
+        type: string
+        example: "1852829"
+    - name: langs
+      in: query
+      required: false
+      description: Comma-separated list of language codes for localized fields (`en`, `ar`, `ru`, `zh`).
+      schema:
+        type: string
+       
+        default: "en"
+        example: "ar"
+        style: form
+        explode: false
+  responses:
+    '200':
+      description: Detailed agent information including personal details, contact methods, and statistics.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                example: "1852829"
+                description: Unique identifier for the agent.
+              name:
+                type: string
+                example: "Vishnu Vinod"
+                description: Agent’s full name in English.
+              name_ar:
+                type: string
+                example: "Vishnu Vinod"
+                description: Agent’s full name in Arabic when `langs=ar` is requested.
+              about_user:
+                type: string
+                example: |
+                  I am a highly knowledgeable and reliable professional in the real estate industry, particularly in the short term rental sector. I understand the importance of providing quality services and focuses on having a comprehensive understanding of the areas and projects I deals with. By prioritizing quality over quantity, I stay up-to-date with the latest trends, market conditions, and legal requirements in the real estate industry. This enables me to offer reliable advice that aligns with my clients' goals and needs. With my commitment to honesty, customer service, and expertise, I can be a trusted partner in your search for a home or investment property
+                description: English bio summarizing the agent’s expertise and background.
+              about_user_ar:
+                type: string
+                example: |
+                  I am a highly knowledgeable and reliable professional in the real estate industry, particularly in the short term rental sector. I understand the importance of providing quality services and focuses on having a comprehensive understanding of the areas and projects I deals with. By prioritizing quality over quantity, I stay up-to-date with the latest trends, market conditions, and legal requirements in the real estate industry. This enables me to offer reliable advice that aligns with my clients' goals and needs. With my commitment to honesty, customer service, and expertise, I can be a trusted partner in your search for a home or investment property
+                description: Agent bio translated into Arabic when `langs=ar` is provided.
+              user_image:
+                type: string
+                example: "https://bayut-production.s3.eu-central-1.amazonaws.com/image/587528669/dcb52a50d8cc4dfa845f3d59664b4ab7"
+                description: URL pointing to the agent’s profile image.
+              experience:
+                type: integer
+                example: 3
+                description: Number of years of professional real estate experience.
+              home_country:
+                type: string
+                example: "UnitedArabEmirates"
+                description: Country where the agent belongs (in English).
+              home_country_ar:
+                type: string
+                example: "الإمارات"
+                description: Home country name localized in Arabic when `langs=ar` is provided.
+              agency:
+                type: object
+                description: Parent agency details for the agent.
+                properties:
+                  id:
+                    type: string
+                    example: "100399"
+                    description: Unique identifier of the agency the agent is affiliated with.
+                  name:
+                    type: string
+                    example: "Airas Vacation Home"
+                    description: English name of the agency.
+                  name_ar:
+                    type: string
+                    example: "ايراس فاكيشن هوم"
+                    description: Agency name localized in Arabic when `langs=ar` is requested.
+                  licenses:
+                    type: array
+                    description: List of regulatory licenses held by the agency.
+                    items:
+                      type: object
+                      properties:
+                        number:
+                          type: string
+                          example: "1052193"
+                          description: Official license number issued by the authority.
+                        authority:
+                          type: string
+                          example: "DED"
+                          description: Licensing authority name (e.g., DED, RERA).
+                  logo:
+                    type: string
+                    example: "https://bayut-production.s3.eu-central-1.amazonaws.com/image/215491862/10a4194f42484849931d478eaf1b8974"
+                    description: URL to the agency’s official logo image.
+                  slug:
+                    type: string
+                    example: "airas-vacation-home-100399"
+                    description: URL-friendly identifier for the agency.
+                  phone_numbers:
+                    type: object
+                    description: Agency contact phone details.
+                    properties:
+                      phone:
+                        type: string
+                        nullable: true
+                        example: ""
+                        description: Agency landline number, if available.
+                      mobile:
+                        type: string
+                        example: "+971589232609"
+                        description: Agency mobile contact number.
+                      proxy_phone:
+                        type: string
+                        nullable: true
+                        example: ""
+                        description: Masked or proxy phone number for privacy.
+              avg_star_rating:
+                type: number
+                format: float
+                example: 0
+                description: Average star rating based on client reviews.
+              contact_methods:
+                type: array
+                items:
+                  type: string
+                example: ["email", "call", "whatsapp", "sms"]
+                description: Supported communication channels for contacting the agent.
+              phone_numbers:
+                type: object
+                description: Agent’s personal contact phone details.
+                properties:
+                  phone:
+                    type: string
+                    nullable: true
+                    example: ""
+                    description: Landline contact number, if available.
+                  cell:
+                    type: string
+                    example: "+971589232609"
+                    description: Primary cell/mobile phone number.
+                  whatsapp:
+                    type: string
+                    example: "+971589232609"
+                    description: WhatsApp-enabled phone number for direct messaging.
+                  proxy_phone:
+                    type: string
+                    nullable: true
+                    example: ""
+                    description: Masked landline number for privacy.
+                  proxy_mobile:
+                    type: string
+                    nullable: true
+                    example: ""
+                    description: Masked mobile number for privacy.
+                  proxy_whatsapp:
+                    type: string
+                    example: "+971545695868"
+                    description: Masked WhatsApp number for anonymized contact.
+                  email:
+                    type: string
+                    example: "hello@airashomerental.com"
+                    description: Agent’s professional email address.
+              social_media:
+                type: object
+                description: Links to the agent’s social media profiles.
+                properties:
+                  instagram:
+                    type: string
+                    example: "https://www.instagram.com/airas.homerental?igsh=MTkybWd5czBhMzlubA=="
+                    description: URL to the agent’s official Instagram profile.
+                  linkedin:
+                    type: string
+                    example: "https://www.linkedin.com/in/vishnu-vinod-b76953156?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                    description: URL to the agent’s LinkedIn profile.
+                  Twitter:
+                    type: string
+                    example: ""
+                    description: URL to the agent’s Twitter profile.
+                  Facebook:
+                    type: string
+                    example: ""
+                    description: URL to the agent’s Facebook profile.
+              stats:
+                type: object
+                description: Performance and listing statistics for the agent.
+                properties:
+                  total_count:
+                    type: integer
+                    example: 85
+                    description: Total number of properties the agent has handled.
+                  rent_count:
+                    type: integer
+                    example: 85
+                    description: Number of properties rented by the agent.
+                  sale_count:
+                    type: integer
+                    example: 0
+                    description: Number of properties sold by the agent.
+                  daily_rent_count:
+                    type: integer
+                    example: 0
+                    description: Number of properties rented on a daily basis.
+                  check_count:
+                    type: integer
+                    example: 40
+                    description: Number of property check-ins or inspections performed.
+                  trucheck_count:
+                    type: integer
+                    example: 42
+                    description: Number of verified property check-ins (“TruCheck”).
+                  review_count:
+                    type: integer
+                    example: 0
+                    description: Total count of client reviews received by the agent.
+              slug:
+                type: string
+                example: "vishnu-vinod-1852829"
+                description: URL-friendly slug generated from the agent’s name and ID.
+              brn_number:
+                type: string
+                nullable: true
+                example: ""
+                description: Broker Registration Number for the agent.
+              bln_number:
+                type: string
+                nullable: true
+                example: ""
+                description: Business License Number for the agent.
+              service_areas:
+                type: array
+                items:
+                  type: string
+                example: ["Dubai", "Jumeirah Lake Towers (JLT)", "Palm Jumeirah", "Dubai Marina", "Meydan City", "Business Bay", "Jumeirah Village Circle (JVC)", "Jumeirah Beach Residence (JBR)", "Dubai Creek Harbour", "The Villa", "DAMAC Hills"]
+                description: English names of districts or neighborhoods where the agent operates.
+              service_areas_ar:
+                type: array
+                items:
+                  type: string
+                example: ["دبي", "أبراج بحيرات الجميرا", "نخلة جميرا", "دبي مارينا", "مدينة ميدان", "الخليج التجاري", "قرية جميرا الدائرية", "جميرا بيتش ريزيدنس", "مرسى خور دبي", "ذا فيلا", "داماك هيلز"]
+                description: Localized Arabic names of the agent’s service areas when `langs=ar` is provided.
+              specialities:
+                type: array
+                items:
+                  type: string
+                example: ["Residential Leasing"]
+                description: List of the agent’s areas of specialization in English.
+              specialities_ar:
+                type: array
+                items:
+                  type: string
+                example: ["تأجير العقارات السكنية"]
+                description: Agent’s specializations translated into Arabic when `langs=ar` is requested.
+              user_langs:
+                type: array
+                items:
+                  type: string
+                example: ["English", "Hindi", "Malayalam"]
+                description: Languages spoken by the agent in English.
+              user_langs_ar:
+                type: array
+                items:
+                  type: string
+                example: ["الإنجليزية", "الهندية", "اللغةالماليالامية"]
+                description: Languages spoken by the agent translated into Arabic when `langs=ar` is provided.
+              state:
+                type: string
+                example: "active"
+                description: Current status of the agent account (e.g., active, suspended).
+              is_tru_broker:
+                type: boolean
+                example: false
+                description: Indicates if the agent is a verified "TruBroker" on the platform.
+              total_xp:
+                type: integer
+                example: 7335
+                description: Total experience points accumulated by the agent based on performance and reviews.
+              is_highly_responsive:
+                type: boolean
+                example: true
+                description: Flag indicating if the agent is known for fast response times.
+              is_quality_lister:
+                type: boolean
+                example: true
+                description: Flag indicating if the agent consistently lists high-quality property photos and descriptions.
+              has_badges:
+                type: boolean
+                example: true
+                description: Indicates whether the agent has earned any badges or awards.
+              active_in_emirate:
+                type: string
+                example: "Dubai"
+                description: Primary emirate where the agent is currently active.
+              is_profile_completed:
+                type: boolean
+                example: true
+                description: Indicates if the agent’s profile is fully completed with all required details.
+              is_complete:
+                type: boolean
+                example: true
+                description: Boolean flag confirming completeness of the agent’s account setup.
+              top_agent:
+                type: boolean
+                example: false
+                description: Indicates if the agent is ranked among the platform’s top performers.
+              leaderboard_filters:
+                type: object
+                description: Filters used to categorize the agent on public leaderboards.
+                properties:
+                  location:
+                    type: string
+                    example: "/dubai/meydan-city/meydan-one"
+                    description: Breadcrumb-style path indicating the agent’s primary service location.
+                  category:
+                    type: string
+                    example: "short_term_residential"
+                    description: Property category used for leaderboard filtering.
+                  purpose:
+                    type: string
+                    example: "for-rent"
+                    description: Listing purpose used for leaderboard filtering.
+                  completion_status:
+                    type: string
+                    example: "any"
+                    description: Indicates whether the leaderboard filter requires listings to be complete or any status.
