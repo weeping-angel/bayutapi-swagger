@@ -1,0 +1,33 @@
+name: swagger2html + rst2pdf
+on:
+  push:
+    branches:
+      - pages
+      
+jobs:
+  conversion:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Install Redoc CLI
+        run: |
+          npm install -g redoc-cli
+
+      - name: Generate HTML from Swagger YAML
+        run: |
+          redoc-cli bundle ./src/main.yml --output index.html
+
+      - name: Setup git config
+        run: |
+          # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: Commit
+        run: |
+          # Stage the file, commit and push
+          git add index.html
+          git commit -m "Updated Swagger documentation"
+          git push origin pages --force
