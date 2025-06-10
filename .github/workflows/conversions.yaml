@@ -1,8 +1,8 @@
-name: swagger2html + rst2pdf
+name: swagger2html
 on:
   push:
     branches:
-      - pages
+      - main
       
 jobs:
   conversion:
