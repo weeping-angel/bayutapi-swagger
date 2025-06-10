@@ -17,7 +17,7 @@ jobs:
 
       - name: Generate HTML from Swagger YAML
         run: |
-          redoc-cli bundle ./src/main.yml --output index.html
+          redoc-cli bundle ./src/main.yaml --output index.html
 
       - name: Setup git config
         run: |
