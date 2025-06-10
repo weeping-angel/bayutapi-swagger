@@ -1,4 +1,8 @@
+.vscode
 venv
 .DS_Store
+dist
+start_local_server.sh
+generate_docs.sh
 __pycache__
 *.pyc
