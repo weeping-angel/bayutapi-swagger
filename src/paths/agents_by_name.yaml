@@ -32,7 +32,7 @@ get:
         explode: false
   responses:
     '200':
-      description: Paginated list of agents matching the search query, with localized fields as requested.
+      description: List of agents matching the search query.
       content:
         application/json:
           schema:
@@ -256,7 +256,7 @@ get:
                     is_tru_broker:
                       type: boolean
                       example: true
-                      description: Indicates if the agent is a verified TruBroker.
+                      description: Exclusive badge awarded to agents who are highly responsive and advertise genuine properties.
                     total_xp:
                       type: integer
                       example: 3620
@@ -264,11 +264,11 @@ get:
                     is_highly_responsive:
                       type: boolean
                       example: true
-                      description: Flag indicating the agent’s responsiveness rank.
+                      description: Exclusive badge awarded to agents who are highly reachable and responsive.
                     is_quality_lister:
                       type: boolean
                       example: true
-                      description: Indicates consistent high-quality listings by the agent.
+                      description: Exclusive badge awarded to agents who authenticate their listings using TruCheck™.
                     has_badges:
                       type: boolean
                       example: true

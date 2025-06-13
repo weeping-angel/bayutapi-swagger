@@ -262,7 +262,7 @@ get:
                     is_tru_broker:
                       type: boolean
                       example: false
-                      description: Indicates if the agent is a verified TruBroker.
+                      description: Exclusive badge awarded to agents who are highly responsive and advertise genuine properties.
                     total_xp:
                       type: integer
                       example: 0
@@ -270,11 +270,11 @@ get:
                     is_highly_responsive:
                       type: boolean
                       example: false
-                      description: Flag denoting response speed ranking.
+                      description: Exclusive badge awarded to agents who are highly reachable and responsive.
                     is_quality_lister:
                       type: boolean
                       example: false
-                      description: Indicates consistency in high-quality listings.
+                      description: Exclusive badge awarded to agents who authenticate their listings using TruCheck™.
                     has_badges:
                       type: boolean
                       example: false

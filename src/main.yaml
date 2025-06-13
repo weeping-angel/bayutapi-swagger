@@ -28,59 +28,59 @@ info:
 
 paths:
 
-  # /locations_search?query={query}&page={page}:
-  #   $ref: './paths/locations_search.yaml'
+  /locations_search?query={query}:
+    $ref: './paths/locations_search.yaml'
 
 
 
-  /property/{property_id}?langs={langs}:
+  /property/{property_id}:
     $ref: './paths/property_info.yaml'
 
 
 
 
-  # /agencies_by_locations?loc_ids={loc_ids}&page={page}&langs={langs}:
-  #   $ref: './paths/agencies_by_locations.yaml'
+  /agencies_by_locations?loc_ids={loc_ids}:
+    $ref: './paths/agencies_by_locations.yaml'
 
-  # /agencies_by_name?query={query}&page={page}&langs={langs}:
-  #   $ref: './paths/agencies_by_name.yaml'
+  /agencies_by_name?query={query}:
+    $ref: './paths/agencies_by_name.yaml'
 
-  # /agency/{agency_id}?langs={langs}:
-  #   $ref: './paths/agency_info.yaml'
+  /agency/{agency_id}:
+    $ref: './paths/agency_info.yaml'
 
-  # /developers_search?query={query}&page={page}&langs={langs}:
-  #   $ref: './paths/developers_search.yaml'
-
-
-
-
-
-
-  # /agents_by_name?query={query}&page={page}&langs={langs}:
-  #   $ref: './paths/agents_by_name.yaml'
-
-  # /agents_by_filters?loc_ids={loc_ids}&purpose={purpose}&category={category}&page={page}&langs={langs}:
-  #   $ref: './paths/agents_by_filters.yaml'
-
-  # /agents_in_agency/{agency_id}?langs={langs}:
-  #   $ref: './paths/agents_in_agency.yaml'
-
-  # /agent/{agent_id}?langs={langs}:
-  #   $ref: './paths/agent_info.yaml'
+  /developers_search?query={query}:
+    $ref: './paths/developers_search.yaml'
 
 
 
 
 
 
+  /agents_by_name?query={query}:
+    $ref: './paths/agents_by_name.yaml'
 
-  # /amenities_search?query={query}&page={page}:
-  #   $ref: './paths/amenities_search.yaml'
+  /agents_by_filters?loc_ids={loc_ids}&purpose={purpose}&category={category}:
+    $ref: './paths/agents_by_filters.yaml'
+
+  /agents_in_agency/{agency_id}:
+    $ref: './paths/agents_in_agency.yaml'
+
+  /agent/{agent_id}:
+    $ref: './paths/agent_info.yaml'
+
+
+
+
+
+
+
+  /amenities_search?query={query}:
+    $ref: './paths/amenities_search.yaml'
 
   
-components:
-  securitySchemes:
-    ApiKey: 
-      type: apiKey
-      in: header
-      name: x-rapidapi-key
+# components:
+#   securitySchemes:
+#     ApiKey: 
+#       type: apiKey
+#       in: header
+#       name: x-rapidapi-key

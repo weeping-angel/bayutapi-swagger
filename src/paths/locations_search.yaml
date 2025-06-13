@@ -1,26 +1,40 @@
 get:
   summary: Locations Search
   description: |
-    Retrieves a list of locations matching the given `query` string. Supports pagination via the `page` parameter.
+    Returns a list of locations (in UAE) for the given `query`.
+    
+    - Supports pagination via the `page` parameter.
+    - Maxium results per page is 25.
+
   parameters:
     - name: query
       in: query
-      description: The search query string to match against location names (e.g., "abu").
+      description: The search query string to match against location names.
       required: true
       schema:
         type: string
         example: abu
     - name: page
       in: query
-      description: Page number for paginated results (zero-based).
+      description: Page number for paginated results (starts from 0).
       required: false
       schema:
         type: integer
         default: 0
         example: 0
+    - name: langs
+      in: query
+      required: false
+      description: Comma-separated list of preferred language codes (`en`, `ar`, `ru`, `zh`).
+      schema:
+        type: string
+        default: "en"
+        example: "ar"
+        style: form
+        explode: false
   responses:
     "200":
-      description: A paginated list of location objects matching the search criteria.
+      description: List of locations matching the search query.
       content:
         application/json:
           schema:
@@ -42,6 +56,10 @@ get:
                       type: string
                       description: Official name of the location.
                       example: "Abudlla Al Fahad 3 Building"
+                    name_ar:
+                      type: string
+                      example: "بناية عبد الله الفهد 3"
+                      description: Arabic name of the location when langs=`ar`.
                     level:
                       type: string
                       description: |
@@ -70,6 +88,11 @@ get:
                               type: string
                               description: Country name.
                               example: "UAE"
+                            name_ar:
+                              type: string
+                              description: Country name in arabic.
+                              example: "الإمارات"
+
                         city:
                           type: object
                           description: City-level information.
@@ -82,6 +105,10 @@ get:
                               type: string
                               description: City name.
                               example: "Dubai"
+                            name_ar:
+                              type: string
+                              description: City name in arabic.
+                              example: "دبي"
                         community:
                           type: object
                           description: Community-level information (if applicable).
@@ -94,6 +121,10 @@ get:
                               type: string
                               description: Community name.
                               example: "Al Qusais"
+                            name_ar:
+                              type: string
+                              description: Community name in arabic.
+                              example: "القصيص"
                         sub_community:
                           type: object
                           description: Sub-community-level information (if applicable).
@@ -106,6 +137,10 @@ get:
                               type: string
                               description: Sub-community name.
                               example: "Al Qusais Industrial Area"
+                            name_ar:
+                              type: string
+                              description: Sub-community name in arabic.
+                              example: "القصيص الصناعية"
                         cluster:
                           type: object
                           description: Cluster-level information (if applicable).
@@ -118,6 +153,10 @@ get:
                               type: string
                               description: Cluster name.
                               example: "Al Qusais Industrial 2"
+                            name_ar:
+                              type: string
+                              description: Cluster name in arabic.
+                              example: "القصيص الصناعية 2"
                         building:
                           type: object
                           description: Building-level information (if applicable).
@@ -130,6 +169,10 @@ get:
                               type: string
                               description: Building name.
                               example: "Abudlla Al Fahad 3 Building"
+                            name_ar:
+                              type: string
+                              description: Building name in arabic.
+                              example: "بناية عبد الله الفهد 3"
                     coordinates:
                       type: object
                       description: Geographical coordinates of the location.
@@ -137,19 +180,19 @@ get:
                         lat:
                           type: number
                           format: float
-                          description: Latitude coordinate.
+                          description: Latitude.
                           example: 25.277729790829
                         lng:
                           type: number
                           format: float
-                          description: Longitude coordinate.
+                          description: Longitude.
                           example: 55.385791484737
                     completion_status:
                       type: string
                       description: |
                         Development status for this location. Possible values:
                           - ready (fully developed)
-                          - off_plan (pre-construction/off-plan)
+                          - off_plan (under-construction/pre-construction)
                           - mixed (partially developed)
                       example: ready
                       enum:
