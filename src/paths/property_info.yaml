@@ -4,19 +4,19 @@ get:
     Fetch comprehensive details for a single property listing by its unique ID.
     Includes pricing, specifications, location hierarchy, agency and agent info,
     media assets, verification, legal data, project details, amenities, floor plans,
-    payment plans, and localized fields based on language preferences.
+    payment plans, and so on.
   parameters:
     - name: id
       in: path
       required: true
-      description: Unique identifier of the property to retrieve.
+      description: Property's unique identifier. (Get it from the property search results.)
       schema:
-        type: string
-        example: "11761721"
+        type: integer
+        example: 11761721
     - name: langs
       in: query
       required: false
-      description: Comma-separated list of language codes for localized fields (`en`, `ar`, `ru`, `zh`).
+      description: Comma-separated list of language codes (`en`, `ar`, `ru`, `zh`).
       schema:
         type: string
         example: "ar"
@@ -31,9 +31,9 @@ get:
             type: object
             properties:
               id:
-                type: string
-                example: "11761721"
-                description: Unique property identifier.
+                type: integer
+                example: 11761721
+                description: Property's unique identifier.
               title:
                 type: string
                 example: "Fully Furnished | Handover now | Great Layout"
@@ -45,11 +45,11 @@ get:
               reference_number:
                 type: string
                 example: "B-AS-136099"
-                description: Internal reference number for the listing.
+                description: Reference number for the listing.
               purpose:
                 type: string
                 example: "for-sale"
-                description: Listing intent (e.g., for-sale, for-rent).
+                description: Listing intent (`for-sale` or `for-rent`).
               type:
                 type: object
                 description: Classification of the property type.
@@ -72,9 +72,9 @@ get:
                     description: Sub-category in Arabic.
               price:
                 type: number
-                format: float
+                format: integer
                 example: 1310000
-                description: Listing price in AED.
+                description: Property price in AED.
               area:
                 type: object
                 description: Size metrics of the property.
@@ -85,7 +85,6 @@ get:
                     description: Built-up area value.
                   plot:
                     type: number
-                    nullable: true
                     example: null
                     description: Plot area, if applicable.
                   unit:
@@ -117,7 +116,7 @@ get:
                     description: Timeline details for off-plan properties.
                     properties:
                       percentage:
-                        type: integer
+                        type: float
                         example: 90
                         description: Percentage of completion.
                       start_date:
@@ -131,12 +130,12 @@ get:
               description:
                 type: string
                 example: "Property Listing: 1-Bedroom Apartment for Sale in Al Serh Residences 11..."
-                description: Detailed English description of the property.
+                description: Detailed description of the property (in English).
               
               description_ar:
                 type: string
                 example: "عقارات: شقة من غرفة نوم واحدة للبيع في الصرح ريزيدنسز 11..."
-                description: Listing description localized in Arabic.
+                description: Property description (in Arabic).
               location:
                 type: object
                 description: Hierarchical location details and coordinates.
@@ -223,15 +222,15 @@ get:
                         type: number
                         format: float
                         example: 25.068235722137
-                        description: Latitude coordinate.
+                        description: Latitude.
                       lng:
                         type: number
                         format: float
                         example: 55.207312337965
-                        description: Longitude coordinate.
+                        description: Longitude.
               agency:
                 type: object
-                description: Listing agency information.
+                description: Agency information.
                 properties:
                   id:
                     type: integer
@@ -240,11 +239,11 @@ get:
                   name:
                     type: string
                     example: "fäm Properties - Branch 7"
-                    description: Agency name in English.
+                    description: Agency name (in English).
                   name_ar:
                     type: string
                     example: "فام العقارية - الفرع 7"
-                    description: Agency name in Arabic.
+                    description: Agency name (in Arabic).
                   logo_url:
                     type: string
                     example: "https://bayut-production.s3.eu-central-1.amazonaws.com/image/96047125/a0643acad8cc4f56be6c26e23116d29b"
@@ -265,15 +264,15 @@ get:
                   product:
                     type: string
                     example: "premium"
-                    description: Agency product subscription tier.
+                    description: Agency product tier.
                   performance:
                     type: string
                     example: "underachieving"
-                    description: Performance status of agency in rankings.
+                    description: Performance status.
                   product_score:
                     type: integer
                     example: 2
-                    description: Numeric score of agency plan.
+                    description: Numeric score of product.
               agent:
                 type: object
                 description: Primary agent contact details.
@@ -285,7 +284,7 @@ get:
                   name:
                     type: string
                     example: "Dainius Gudauskas"
-                    description: Agent’s full name.
+                    description: Agent's full name.
                   contact:
                     type: object
                     properties:
@@ -296,7 +295,7 @@ get:
                       phone:
                         type: string
                         example: "+97142483751"
-                        description: Landline number.
+                        description: Phone number.
                       whatsapp:
                         type: string
                         example: "971545695868"
@@ -307,7 +306,7 @@ get:
                         description: Proxy phone number for contact.
               media:
                 type: object
-                description: Photos and videos associated with the listing.
+                description: Photos and videos associated with the property.
                 properties:
                   cover_photo:
                     type: string
@@ -326,7 +325,7 @@ get:
                   cover_video:
                     type: string
                     example: ""
-                    description: URL of cover video if available.
+                    description: URL of cover video (if available).
                   video_count:
                     type: integer
                     example: 0
@@ -347,7 +346,7 @@ get:
                   is_verified:
                     type: boolean
                     example: true
-                    description: Verified flag.
+                    description: Property verification flag.
                   verified_at:
                     type: string
                     format: date-time
@@ -385,11 +384,11 @@ get:
                   title:
                     type: string
                     example: "Al Serh Residences 11"
-                    description: Project name in English.
+                    description: Project name (in English).
                   title_ar:
                     type: string
                     example: "الصرح ريزيدنسز 11"
-                    description: Project name in Arabic.
+                    description: Project name (in Arabic).
                   completion_status:
                     type: string
                     example: "under-construction"
@@ -406,7 +405,7 @@ get:
                         example: "2025-06-29 20:00:00"
                         description: Date of completion.
                       completion_percentage:
-                        type: integer
+                        type: float
                         example: 90
                         description: Percentage completion.
                   developer:
@@ -478,7 +477,7 @@ get:
               indy_score:
                 type: integer
                 example: 528
-                description: Independent performance score.
+                description: Indy Score.
               location_purpose_tier:
                 type: integer
                 example: 1
@@ -501,13 +500,13 @@ get:
                       type: array
                       items:
                         type: string
-                      example: ["Centrally Air-Conditioned","Storage Areas","Study Room"]
+                      example: ["Centrally Air-Conditioned", "Storage Areas", "Study Room"]
                       description: Amenity names in English.
                     items_ar:
                       type: array
                       items:
                         type: string
-                      example: ["نظام تبريد مركزي","مناطق تخزين","غرفة دراسة"]
+                      example: ["نظام تبريد مركزي", "مناطق تخزين", "غرفة دراسة"]
                       description: Amenity names in Arabic.
               floor_plan:
                 type: object
@@ -545,9 +544,9 @@ get:
                           example: ""
                           description: Description of down payment.
                         percent:
-                          type: integer
+                          type: float
                           example: 20
-                          description: Percentage down payment.
+                          description: Down Payment Percentage.
                     pre_handover:
                       type: array
                       items:
@@ -558,7 +557,7 @@ get:
                             example: "Within 1 month from booking"
                             description: Milestone description.
                           percent:
-                            type: integer
+                            type: float
                             example: 2
                             description: Percentage due at milestone.
                     handover:
@@ -569,7 +568,7 @@ get:
                           example: ""
                           description: Description of handover payment.
                         percent:
-                          type: integer
+                          type: float
                           example: 70
                           description: Percentage due at handover.
                     post_handover:
@@ -582,7 +581,7 @@ get:
                             example: "Within 3 months after handover"
                             description: Milestone description.
                           percent:
-                            type: integer
+                            type: float
                             example: 5
                             description: Percentage due.
               offplan_details:
