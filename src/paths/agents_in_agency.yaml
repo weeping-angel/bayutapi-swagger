@@ -340,7 +340,3 @@ get:
                 type: integer
                 example: 12
                 description: Total number of agents in the agency.
-              agency_id:
-                type: string
-                example: "102062"
-                description: The agency identifier used in the request.

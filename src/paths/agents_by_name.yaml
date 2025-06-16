@@ -45,9 +45,9 @@ get:
                   type: object
                   properties:
                     id:
-                      type: string
-                      example: "2281326"
-                      description: Unique identifier of the agent.
+                      type: integer
+                      example: 2281326
+                      description: Agent's Unique identifier.
                     name:
                       type: string
                       example: "Vipul Shrivastava"
@@ -75,9 +75,9 @@ get:
                       description: Parent agency details for the agent.
                       properties:
                         id:
-                          type: string
-                          example: "102421"
-                          description: Unique identifier of the affiliated agency.
+                          type: integer
+                          example: 102421
+                          description: Agency's Unique identifier.
                         name:
                           type: string
                           example: "Avcor Real Estate"

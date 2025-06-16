@@ -1,48 +1,49 @@
 get:
   summary: Agency Information
+  
   description: >
     Fetch comprehensive details for a single real estate agency by its unique ID.
-    Includes description, contact information, licensing, activity statistics, and localized fields
-    based on language preferences.
+    Includes description, contact information, licensing, activity statistics, and more.
+
   parameters:
     - name: id
       in: path
       required: true
-      description: Unique identifier of the agency to retrieve.
+      description: Agency's unique identifier.
       schema:
-        type: string
-        example: "102062"
+        type: integer
+        example: 102062
     - name: langs
       in: query
       required: false
-      description: Comma-separated list of language codes for localized fields (`en`, `ar`, `ru`, `zh`).
+      description: Comma-separated list of language codes (`en`, `ar`, `ru`, `zh`).
       schema:
         type: string
-        
         default: "en"
         example: "ru"
         style: form
         explode: false
+  
   responses:
     '200':
-      description: Detailed agency profile including contact, licensing, and statistics.
+      description: Detailed Agency Information
       content:
         application/json:
           schema:
             type: object
             properties:
               id:
-                type: string
-                example: "102062"
-                description: Unique identifier of the agency.
+                type: integer
+                example: 102062
+                description: Agency's unique identifier.
               name:
                 type: string
                 example: "K A Homes Properties"
-                description: English name of the agency.
+                description: Agency name (in English).
               name_ru:
                 type: string
                 example: "K A Homes Properties"
-                description: Agency name localized in Russian if `langs=ru` is provided.
+                description: Agency name (in Russian, if applicable).
               agents_count:
                 type: integer
                 example: 13
@@ -54,36 +55,37 @@ get:
               product_score:
                 type: number
                 example: 1
-                description: Numeric score indicating the agency’s ranking or plan level.
+                description: Product score
               logo:
                 type: string
                 example: "https://bayut-production.s3.eu-central-1.amazonaws.com/image/346903261/4409eaeff3db4950b1c49fc63d5bece5"
-                description: URL pointing to the agency’s official logo image.
+                description: URL pointing to the agency's official logo image.
               base_location:
                 type: string
                 example: "Ajman"
-                description: Primary city or emirate where the agency is based or prominently operates.
+                description: Place where the agency is based or prominently operates.
               base_location_ru:
                 type: string
                 example: "Аджман"
-                description: Localized name of the main location in Russian when `langs=ru` is set.
+                description: Place where the agency is based or prominently operates (in Russian).
               slug:
                 type: string
                 example: "k-a-homes-properties-102062"
-                description: URL-friendly identifier derived from agency name and ID.
+                description: Lowercased, hyphen-separated, URL-friendly agency identifier.
               phone_numbers:
                 type: object
-                description: Contact telephone numbers for the agency.
+                description: Contact numbers for the agency.
                 properties:
                   phone:
                     type: string
                     nullable: true
                     example: null
-                    description: Landline phone number if available.
+                    description: Phone number (if available).
                   mobile:
                     type: string
                     example: "+971509428641"
-                    description: Primary mobile contact number for the agency.
+                    nullable: true
+                    description: Mobile number (if available).
                   proxy_phone:
                     type: string
                     nullable: true
@@ -100,17 +102,17 @@ get:
                 example: |
                   An accredited, registered, and licensed real estate company established by K A HOMES
                   As a leading company in the United Arab Emirates with its renewed style in real estate activity in the field of marketing and selling real estate throughout the United Arab Emirates. The company has taken great strides in its endeavor to diversify its sales field by making customers one of its top priorities in its business and then proceeding to create services according to their needs.
-                description: English-language description summarizing the agency’s background and expertise.
+                description: Description summarizing the agency's background and expertise (in English).
               description_ru:
                 type: string
                 example: |
                   An accredited, registered, and licensed real estate company established by K A HOMES
                   As a leading company in the United Arab Emirates with its renewed style in real estate activity in the field of marketing and selling real estate throughout the United Arab Emirates. The company has taken great strides in its endeavor to diversify its sales field by making customers one of its top priorities in its business and then proceeding to create services according to their needs.
-                description: Russian translation of the agency’s description when `langs=ru` is provided.
+                description: Description summarizing the agency's background and expertise (in Russian, if available).
               is_featured:
                 type: boolean
                 example: true
-                description: Indicates whether the agency is highlighted as a featured partner.
+                description: Indicates whether the agency is featured or not.
               licenses:
                 type: array
                 description: List of official licenses held by the agency.
@@ -127,18 +129,18 @@ get:
                       description: Name of the licensing authority (e.g., DED, RERA).
               base_locations:
                 type: array
-                description: locations where the agency is based or prominently operates.
+                description: Locations where the agency is based or prominently operates.
                 items:
                   type: object
                   properties:
                     id:
                       type: integer
                       example: 4
-                      description: Unique identifier for the location.
+                      description: Location's unique identifier.
                     name:
                       type: string
                       example: "Ajman"
-                      description: English name of the location.
+                      description: Name of the place.
                     coordinates:
                       type: object
                       properties:
@@ -146,20 +148,20 @@ get:
                           type: number
                           format: float
                           example: 25.403779108056
-                          description: Latitude coordinate of the location.
+                          description: Latitude.
                         lng:
                           type: number
                           format: float
                           example: 55.540421623239
-                          description: Longitude coordinate of the location.
+                          description: Longitude.
                     full:
                       type: string
                       example: "UAE -> Ajman"
-                      description: Full hierarchical path of the location in English.
+                      description: Full hierarchical path of the location (in English).
                     full_ru:
                       type: string
                       example: "ОАЭ -> Аджман"
-                      description: Full hierarchical path of the location in Russian when `langs=ru` is set.
+                      description: Full hierarchical path of the location (in Russian).
               stats:
                 type: object
                 description: Aggregated statistics and coverage metrics for the agency.
@@ -175,19 +177,19 @@ get:
                     items:
                       type: string
                     example: ["Таунхаусы", "Пентхаусы", "Виллы", "Апартаменты", "Участки"]
-                    description: Property category names translated into Russian when `langs=ru` is provided.
+                    description: List of property categories the agency specializes in (in Russian).
                   service_areas:
                     type: array
                     items:
                       type: string
                     example: ["Al Sehma", "Al Helio", "Barashi", "Al Mamzar"]
-                    description: English names of neighborhoods or districts the agency serves.
+                    description: Places where the agency serves (in English).
                   service_areas_ru:
                     type: array
                     items:
                       type: string
                     example: ["Аль Сехма", "Аль Хелио", "Бараши", "Аль Мамзар"]
-                    description: Names of service areas translated into Russian when `langs=ru` is provided.
+                    description: Places where the agency serves (in Russian).
                   purposes:
                     type: array
                     items:
