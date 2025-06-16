@@ -39,7 +39,7 @@ paths:
 
 
 
-  /agencies_by_locations?loc_ids={loc_ids}:
+  /agencies_by_locations?locations_ids={locations_ids}:
     $ref: './paths/agencies_by_locations.yaml'
 
   /agencies_by_name?query={query}:
@@ -59,7 +59,7 @@ paths:
   /agents_by_name?query={query}:
     $ref: './paths/agents_by_name.yaml'
 
-  /agents_by_filters?loc_ids={loc_ids}&purpose={purpose}&category={category}:
+  /agents_by_filters?locations_ids={locations_ids}&purpose={purpose}&category={category}:
     $ref: './paths/agents_by_filters.yaml'
 
   /agents_in_agency/{agency_id}:

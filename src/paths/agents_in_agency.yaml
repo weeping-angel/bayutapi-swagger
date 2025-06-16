@@ -1,17 +1,19 @@
 get:
   summary: Agents in Agency
+  
   description: >
     Retrieve a list of all agents affiliated with a specific real estate agency.
     Includes detailed profiles, contact information, performance statistics, and
     localized fields based on language preferences. 
+  
   parameters:
     - name: agency_id
       in: path
       required: true
       description: Unique identifier of the agency whose agents will be listed.
       schema:
-        type: string
-        example: "102062"
+        type: integer
+        example: 102062
     - name: langs
       in: query
       required: false
@@ -23,6 +25,7 @@ get:
         example: "ar"
         style: form
         explode: false
+  
   responses:
     '200':
       description: List of agents belonging to the specified agency, with localization support.

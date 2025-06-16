@@ -1,8 +1,10 @@
 get:
   summary: Agents by Name
+  
   description: >
     Retrieve a paginated list of real estate agents whose names match the specified query string.
     Supports partial, case-insensitive matches and returns agents active across the UAE.
+  
   parameters:
     - name: query
       in: query
@@ -30,6 +32,7 @@ get:
         example: "ar"
         style: form
         explode: false
+  
   responses:
     '200':
       description: List of agents matching the search query.

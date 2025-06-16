@@ -1,21 +1,21 @@
 get:
   summary: Developers Search
+  
   description: >
-    Retrieve a paginated list of real estate developers whose names match the specified query string.
-    This endpoint supports partial and case-insensitive matches and returns developers active in
-    property development across the UAE.
+    Returns a list of real estate developers whose names match the given search query.
+  
   parameters:
     - name: query
       in: query
       required: true
-      description: Text string to search within developer names. Supports partial, case-insensitive matches.
+      description: Search query to filter developer names.
       schema:
         type: string
         example: "ab"
     - name: page
       in: query
       required: false
-      description: Zero-based pagination index to navigate through result pages.
+      description: Pagination index (starting from 0).
       schema:
         type: integer
         default: 0
@@ -23,17 +23,17 @@ get:
     - name: langs
       in: query
       required: false
-      description: Comma-separated list of language codes for localized fields (`en`, `ar`, `ru`, `zh`).
+      description: Comma-separated list of language codes (`en`, `ar`, `ru`, `zh`).
       schema:
         type: string
-    
         default: "en"
         example: "ar,ru"
         style: form
         explode: false
+  
   responses:
     '200':
-      description: A paginated list of developers matching the search criteria.
+      description: Returns developers matching the search criteria.
       content:
         application/json:
           schema:
@@ -46,48 +46,45 @@ get:
                   type: object
                   properties:
                     id:
-                      type: string
-                      example: "1011"
+                      type: integer
+                      example: 1011
                       description: Unique identifier for the developer.
                     name:
                       type: string
                       example: "AB Developers"
-                      description: Official English name of the developer.
+                      description: Name of the developer (in English).
                     name_ar:
                       type: string
                       example: "AB Developers"
-                      description: Developer name localized in Arabic when `langs=ar` is requested.
+                      description: Name of the developer (in Arabic, if available).
                     name_ru:
                       type: string
                       example: "AB Developers"
-                      description: Developer name localized in Russian when `langs=ru` is requested.
+                      description: Name of the developer (in Russian, if available).
                     logo:
                       type: string
                       example: "https://bayut-production.s3.eu-central-1.amazonaws.com/image/726323858/b52a7b45dc3d4b6bb29b2df77787fb90"
-                      description: URL pointing to the developer’s logo image for brand recognition in search results.
+                      description: Developer's logo URL.
                     phone_numbers:
                       type: object
-                      description: Contact phone details for the developer.
+                      description: Contact details for the developer.
                       properties:
                         phone:
                           type: string
-                          nullable: true
                           example: "+97142277712"
-                          description: Primary landline contact number, if available.
+                          description: Phone number, if available.
                         mobile:
                           type: string
-                          nullable: true
                           example: ""
-                          description: Mobile contact number for direct developer inquiries.
+                          description: Mobile number, if available.
                         proxy_phone:
                           type: string
-                          nullable: true
                           example: ""
                           description: Masked phone number for privacy.
                     slug:
                       type: string
                       example: "ab-developers"
-                      description: URL-friendly slug generated from the developer’s name.
+                      description: Lowercased, hyphenated, URL-friendly identifier for the developer.
                     contact_methods:
                       type: array
                       items:
@@ -101,44 +98,44 @@ get:
                       description: Timestamp indicating when the developer profile was added to the platform.
                     stats:
                       type: object
-                      description: Aggregated statistics and coverage details for the developer’s listings.
+                      description: Aggregated statistics and coverage details for the developer's listings.
                       properties:
                         categories:
                           type: array
                           items:
                             type: string
                           example: ["Apartments", "Other Commercial"]
-                          description: List of property categories (in English) that the developer offers.
+                          description: List of property categories that the developer offers (in English).
                         categories_ar:
                           type: array
                           items:
                             type: string
                           example: ["شقق", "عقارات تجارية أخرى"]
-                          description: Property categories translated into Arabic when `langs=ar` is requested.
+                          description: List of property categories that the developer offers (in Arabic).
                         categories_ru:
                           type: array
                           items:
                             type: string
                           example: ["Апартаменты", "Другие коммерческие"]
-                          description: Property categories translated into Russian when `langs=ru` is requested.
+                          description: List of property categories that the developer offers (in Russian).
                         service_areas:
                           type: array
                           items:
                             type: string
                           example: ["Jumeirah Village Circle (JVC)", "Dubai Islands"]
-                          description: English names of districts or neighborhoods where the developer is active.
+                          description: Places where the developer operates (in English).
                         service_areas_ar:
                           type: array
                           items:
                             type: string
                           example: ["قرية جميرا الدائرية", "جزر دبي"]
-                          description: Service area names translated into Arabic when `langs=ar` is requested.
+                          description: Places where the developer operates (in Arabic).
                         service_areas_ru:
                           type: array
                           items:
                             type: string
                           example: ["Джумейра Вилладж Серкл (ДЖВС)", "Дейра Айленд"]
-                          description: Service area names translated into Russian when `langs=ru` is requested.
+                          description: Places where the developer operates (in Russian).
                         purposes:
                           type: array
                           items:
@@ -156,7 +153,7 @@ get:
                         properties_total_count:
                           type: integer
                           example: 2
-                          description: Combined total of sale and rented property listings for aggregate analysis.
+                          description: Combined total of sale and rented properties.
               count:
                 type: integer
                 example: 3
@@ -164,8 +161,8 @@ get:
               query:
                 type: string
                 example: "ab"
-                description: The exact search string used to filter developer names.
+                description: "Given search query used to filter developers."
               page:
                 type: integer
                 example: 0
-                description: Current zero-based pagination index returned in the response.
+                description: Current page index (Starts from 0).

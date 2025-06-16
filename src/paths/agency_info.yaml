@@ -1,5 +1,5 @@
 get:
-  summary: Agency Information
+  summary: Agency Info
   
   description: >
     Fetch comprehensive details for a single real estate agency by its unique ID.
