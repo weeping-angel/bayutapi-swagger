@@ -37,11 +37,11 @@ get:
               title:
                 type: string
                 example: "Fully Furnished | Handover now | Great Layout"
-                description: Headline title of the listing.
+                description: Property title.
               title_ar:
                 type: string
                 example: "شقة في الصرح ريزيدنسز 11..."
-                description: Listing title localized in Arabic.
+                description: Property title (in Arabic).
               reference_number:
                 type: string
                 example: "B-AS-136099"
@@ -334,7 +334,7 @@ get:
                     type: array
                     items:
                       type: string
-                    description: URLs of listing videos.
+                    description: Property video URL.
                   panorama_count:
                     type: integer
                     example: 0
@@ -457,7 +457,7 @@ get:
                   url:
                     type: string
                     example: "https://www.bayut.com/property/details-11761721.html"
-                    description: Public URL of the listing.
+                    description: Property URL.
                   product:
                     type: string
                     example: "premium"

@@ -1,0 +1,15 @@
+post:
+  summary: Properties Search
+
+  description: |
+    Search for properties based on various criteria such as location, price, type, and more.
+    Supports pagination and filtering by multiple parameters.
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            query:

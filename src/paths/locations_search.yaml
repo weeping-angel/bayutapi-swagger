@@ -4,7 +4,7 @@ get:
     Returns a list of locations (in UAE) for the given `query`.
     
     - Supports pagination via the `page` parameter.
-    - Maxium results per page is 25.
+    - Maximum results per page is 25.
 
   parameters:
     - name: query
