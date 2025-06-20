@@ -2,7 +2,7 @@ post:
   summary: Transactions
   
   description: |
-    Fetch real estate transaction data based on custom filters like location, category, price, area, date range, and more.
+    Fetch Dubai's Real Estate Transactions based on custom filters like location, category, price, area, date range, and more.
   
   parameters:
     - name: page
