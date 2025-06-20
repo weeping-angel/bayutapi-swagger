@@ -23,8 +23,8 @@ info:
 #   description: Read more
 #   url: 'https://mediumapi.com/documentation.html?utm_source=swagger_docs&utm_medium=external_docs&utm_campaign=api_reference'
 
-# servers:
-#   - url: https://medium2.p.rapidapi.com
+servers:
+  - url: https://bayut-api1.p.rapidapi.com
 
 paths:
 
