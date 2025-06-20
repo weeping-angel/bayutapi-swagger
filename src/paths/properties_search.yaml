@@ -1,15 +1,627 @@
 post:
-  summary: Properties Search
+  summary: "Properties Search"
+  
+  description: >
+    Returns a list of real estate properties in UAE filtered by purpose, 
+    category, locations, price range, area, completion status, amenities, and more.
 
-  description: |
-    Search for properties based on various criteria such as location, price, type, and more.
-    Supports pagination and filtering by multiple parameters.
-
+  parameters:
+    - name: "page"
+      in: "query"
+      description: "Page number for paginated results (starts from 0)."
+      required: false
+      schema:
+        type: "integer"
+        example: 0
+    - name: "langs"
+      in: "query"
+      description: "Comma-separated list of preferred language codes (`en`, `ar`, `ru`, `zh`)."
+      required: false
+      schema:
+        type: "string"
+        default: "en"
+        example: "ar"
   requestBody:
-    required: true
     content:
       application/json:
         schema:
-          type: object
+          type: "object"
           properties:
-            query:
+            purpose:
+              type: "string"
+              description: Listing intent to filter properties (`for-sale`, `for-rent`).
+              example: "for-sale"
+            category:
+              type: "string"
+              description: Property category code to filter (`residential`, 
+                        `hotel-apartments`, `apartments`, `townhouses`, `villas`, `penthouse`,
+                        `villa-compound`, `residential-plots`, `residential-floors`, `residential-building`,
+
+                        `commercial`, 
+                        `offices`, `shops`, `warehouses`, `labour-camps`, `commercial-villas`,
+                        `bulk-units`, `commercial-plots`, `commercial-floors`, `commercial-buildings`,
+                        `factories`, `industrial-land`, `mixed-use-land`, `showrooms`, `commercial-properties`).
+              example: "apartments"
+            locations_ids:
+              type: "array"
+              items:
+                type: "integer"
+              description: "Comma-separated list of location IDs to filter properties by service areas."
+              example: [2, 3]
+            index:
+              type: "string"
+              description: Sort the result by `popular`, `verified`, `latest`, `lowest_price`, `highest_price`, `projects`.
+              example: "popular"
+            is_completed:
+              type: boolean
+              example: false
+              description: Flag to filter properties based on their completion status (`under-construction` or `completed`).
+            agent_id:
+              type: "integer"
+              description: "Agent's Unique identifier."
+              example: 2191615
+            agency_id:
+              type: "integer"
+              description: "Agency's Unique identifier."
+              example: 10527
+            developer_id:
+              type: "integer"
+              description: "Developer's Unique identifier."
+              example: 901
+            rooms:
+              type: "array"
+              items:
+                type: "integer"
+              description: "Allowed number of bedrooms."
+              example: [0, 1, 2, 3]
+            baths:
+              type: "array"
+              items:
+                type: "integer"
+              description: "Allowed number of bathrooms."
+              example: [0, 1, 2, 3, 4]
+            is_furnished:
+              type: boolean
+              description: Flag to filter properties based on furnishing status (`true` for furnished, `false` for unfurnished).
+              example: false
+            completion_percent_min:
+              type: "integer"
+              description: Minimum completion percentage of the properties under construction (applicable when `is_completed` is `false`).
+              example: 0
+            completion_percent_max:
+              type: "integer"
+              description: Maximum completion percentage of the properties under construction (applicable when `is_completed` is `false`).
+              example: 90
+            price_min:
+              type: "number"
+              format: "float"
+              description: Minimum property price in AED.
+              example: 500000
+            price_max:
+              type: "number"
+              format: "float"
+              description: Maximum property price in AED.
+              example: 1000000
+            has_video:
+              type: boolean
+              description: Flag to include (`true`) or exclude (`false`) properties with video tours. Don't use this parameter if it doesn't matter.
+              example: false
+            has_360_tour:
+              type: boolean
+              description: Flag to include (`true`) or exclude (`false`) properties with 360° tours. Don't use this parameter if it doesn't matter.
+              example: false
+            has_floorplan:
+              type: boolean
+              description: Flag to include (`true`) or exclude (`false`) properties with floor plans. Don't use this parameter if it doesn't matter.
+              example: true
+            amenities:
+              type: "array"
+              items:
+                type: "string"
+              description: List of desired amenities to filter properties.
+              example: ["ATM Facility", "Sauna"]
+            area_min:
+              type: number
+              description: "Minimum area in sqft to filter properties."
+              example: 400
+            area_max:
+              type: number
+              description: "Maximum area in sqft to filter properties."
+              example: 1000
+            completion_date:
+              type: "string"
+              format: "date"
+              description: "Expected completion date (DD-MM-YYYY)."
+              example: "31-12-2027"
+  responses:
+    "200":
+      description: "Returns a list of properties matching the search criteria."
+      content:
+        application/json:
+          schema:
+            type: "object"
+            properties:
+              results:
+                type: "array"
+                description: "Array of property objects."
+                items:
+                  type: "object"
+                  properties:
+                    id:
+                      type: "integer"
+                      description: "Unique property identifier."
+                      example: 11902621
+                    title:
+                      type: "string"
+                      description: "Property title."
+                      example: "💠Studio with Swimming Pool | 💠High Floor - 💠MODERN INTERIOR |💠 Investor Deal |💠 Pool View 💠| Resort-Style"
+                    reference_number:
+                      type: "string"
+                      description: "Property reference code."
+                      example: "10527-HqMWQ3"
+                    purpose:
+                      type: "string"
+                      description: Listing intent (e.g., `for-sale`, `for-rent`).
+                      example: "for-sale"
+                    type:
+                      type: "object"
+                      properties:
+                        main:
+                          type: "string"
+                          description: Primary property classification (Residential or Commercial).
+                          example: "Residential"
+                        sub:
+                          type: "string"
+                          description: Sub-category of the property.
+                          example: "Apartments"
+                    price:
+                      type: "number"
+                      format: "float"
+                      description: "Listing price in AED."
+                      example: 803709.0
+                    area:
+                      type: "object"
+                      properties:
+                        built_up:
+                          type: "number"
+                          description: "Built-up area."
+                          example: 430.0
+                        plot:
+                          type: "number"
+                          nullable: true
+                          description: "Plot area (if applicable)."
+                          example: null
+                        unit:
+                          type: "string"
+                          description: "Unit of area measurement."
+                          example: "sqft"
+                    details:
+                      type: "object"
+                      properties:
+                        bedrooms:
+                          type: "integer"
+                          description: "Number of bedrooms."
+                          example: 0
+                        bathrooms:
+                          type: "integer"
+                          description: "Number of bathrooms."
+                          example: 1
+                        is_furnished:
+                          type: boolean
+                          description: Flag indicating if the property is furnished or unfurnished.
+                          example: false
+                        completion_status:
+                          type: "string"
+                          description: Current construction status of the property - `under-construction` or `completed`.
+                          example: "under-construction"
+                        completion_details:
+                          type: "object"
+                          properties:
+                            percentage:
+                              type: float
+                              description: Completion percentage of the property.
+                              example: 2.0
+                            start_date:
+                              type: "string"
+                              format: "date-time"
+                              description: Construction start date in ISO 8601 format.
+                              example: "2023-11-29T20:00:00Z"
+                            completion_date:
+                              type: "string"
+                              format: "date-time"
+                              description: Expected completion date in ISO 8601 format.
+                              example: "2027-12-30T20:00:00Z"
+                    keywords:
+                      type: "array"
+                      items:
+                        type: "string"
+                      description: "Keywords associated with the property."
+                      example: ["parking","private pool"]
+
+                    location:
+                      type: object
+                      description: "Geographic hierarchy and coordinates of the property."
+                      properties:
+                        country:
+                          type: object
+                          description: Country where the property is located.
+                          properties:
+                            id:
+                              type: integer
+                              description: "Country ID."
+                              example: 1
+                            name:
+                              type: string
+                              description: "Country name."
+                              example: "UAE"
+                        city:
+                          type: object
+                          description: City where the property is located.
+                          properties:
+                            id:
+                              type: integer
+                              description: "City ID."
+                              example: 2
+                            name:
+                              type: string
+                              description: "City name."
+                              example: "Dubai"
+                        community:
+                          type: object
+                          description: Primary community or district
+                          properties:
+                            id:
+                              type: integer
+                              description: "Community ID."
+                              example: 603
+                            name:
+                              type: string
+                              description: "Community name."
+                              example: "Dubai Land Residence Complex"
+                        sub_community:
+                          type: object
+                          description: Smaller subdivision within the community (if applicable).
+                          properties:
+                            id:
+                              type: integer
+                              description: "Sub-community ID."
+                              example: 87107
+                            name:
+                              type: string
+                              description: "Sub-community name."
+                              example: "Samana Ivy Gardens 2"
+                        cluster:
+                          type: object
+                          description: Minor cluster grouping, if any.
+                          properties:
+                            id:
+                              type: integer
+                              nullable: true
+                              description: "Cluster (or building) ID."
+                              example: null
+                            name:
+                              type: string
+                              nullable: true
+                              description: "Cluster name."
+                              example: null
+                        coordinates:
+                          type: object
+                          description: "Latitude and longitude for map display."
+                          properties:
+                            lat:
+                              type: float
+                              description: Latitude.
+                              example: 25.100567978673
+                            lng:
+                              type: float
+                              description: Longitude.
+                              example: 55.377066359108
+
+                    agency:
+                      type: object
+                      description: "Agency information."
+                      properties:
+                        id:
+                          type: integer
+                          description: "Agency ID."
+                          example: 10527
+                        name:
+                          type: string
+                          description: "Agency name."
+                          example: "Trusty Home for Real Estate"
+                        logo_url:
+                          type: string
+                          format: uri
+                          description: Agency logo image URL.
+                          example: "https://bayut-production.s3.eu-central-1.amazonaws.com/image/105840265/43d17f3aba7b48b5b5257c69be564239"
+                        licenses:
+                          type: array
+                          description: "Regulatory licenses held by the agency."
+                          items:
+                            type: object
+                            properties:
+                              number:
+                                type: string
+                                description: "License number."
+                                example: "950348"
+                              authority:
+                                type: string
+                                description: "Issuing authority."
+                                example: "DED"
+                        product:
+                          type: string
+                          description: "Agency product tier."
+                          example: "premium"
+                        product_score:
+                          type: integer
+                          description: "Numeric score of product."
+                          example: 2
+                        performance:
+                          type: string
+                          description: "Performance status."
+                          example: "overachieving"
+
+                    agent:
+                      type: object
+                      description: "Individual agent details for this listing."
+                      properties:
+                        id:
+                          type: integer
+                          description: Agent's unique identifier.
+                          example: 2191615
+                        name:
+                          type: string
+                          description: Agent's full name.
+                          example: "Ibrahim Hassan"
+                        profile_image:
+                          type: string
+                          format: uri
+                          description: Agent's profile photo URL.
+                          example: "https://bayut-production.s3.eu-central-1.amazonaws.com/image/515469508/d2c52169b345480db9d7bf61128304f7"
+                        is_tru_broker:
+                          type: boolean
+                          description: Exclusive badge awarded to agents who are highly responsive and advertise genuine properties.
+                          example: true
+                        contact:
+                          type: object
+                          description: "Agent's contact channels."
+                          properties:
+                            mobile:
+                              type: string
+                              description: "Mobile number (if available)."
+                              example: "+97142483751"
+                            phone:
+                              type: string
+                              description: "Phone number (if available)."
+                              example: "+97142483756"
+                            whatsapp:
+                              type: string
+                              description: "WhatsApp number (if available)."
+                              example: "+97142483751"
+                            proxy_phone:
+                              type: string
+                              description: "Proxy phone number for privacy (if available)."
+                              example: ""
+
+                    amenities:
+                      type: array
+                      description: "Available amenities."
+                      items:
+                        type: string
+                        example: ["Conference Room", "Completion Year", "Gym or Health Club"]
+
+                    media:
+                      type: object
+                      description: "Photos and videos associated with the property."
+                      properties:
+                        cover_photo:
+                          type: string
+                          format: uri
+                          description: Cover Image URL
+                          example: "https://bayut-production.s3.eu-central-1.amazonaws.com/image/778964024/50eda0322ef94212a88fd5e7355caa30"
+                        photo_count:
+                          type: integer
+                          description: "Number of photos."
+                          example: 10
+                        photos:
+                          type: array
+                          description: "URLs of property photos."
+                          items:
+                            type: string
+                            format: uri
+                            example: ["https://images.bayut.com/thumbnails/778964024-800x600.jpeg"]
+                        video_count:
+                          type: integer
+                          description: "Number of videos."
+                          example: 0
+                        panorama_count:
+                          type: integer
+                          description: "Number of 360° panoramas."
+                          example: 0
+                        cover_video:
+                          type: string
+                          description: "Property video URL."
+                          example: ""
+
+                    verification:
+                      type: object
+                      description: "Verification details for the listing."
+                      properties:
+                        is_verified:
+                          type: boolean
+                          description: Property verification flag - Bayut has checked this property's documentation to ensure its authenticity.
+                          example: true
+                        verified_at:
+                          type: string
+                          format: date-time
+                          description: "Verification timestamp."
+                          example: "2025-06-12T11:21:14Z"
+                        truchecked_at:
+                          type: string
+                          format: date-time
+                          description: TruCheck timestamp - Having TruCheck™ confirms that Bayut's quality control team has validated the Oqood (contracts) of this property.
+                          example: "2025-06-12T11:21:14Z"
+
+                    legal:
+                      type: object
+                      description: "Legal identifiers for the property."
+                      properties:
+                        permit_number:
+                          type: string
+                          description: A permit issued to RERA registered companies and Dubai developers confirming their right to advertise properties.
+                          example: "71618166211"
+                        dld_property_sk:
+                          type: string
+                          description: "DLD (Dubai Land Department) property key."
+                          example: "11902621"
+                        dld_building_nk:
+                          type: string
+                          description: "DLD (Dubai Land Department) building key."
+                          example: "tabu-618131172"
+
+                    project:
+                      type: object
+                      description: "Development project details."
+                      properties:
+                        id:
+                          type: integer
+                          description: "Project's unique identifier."
+                          example: 1475
+                        completion_status:
+                          type: string
+                          description: "Project completion status."
+                          example: "under-construction"
+                        developer:
+                          type: object
+                          description: "Developer details for this project."
+                          properties:
+                            id:
+                              type: integer
+                              description: "Developer's unique identifier."
+                              example: 901
+                            name:
+                              type: string
+                              description: "Developer name."
+                              example: "Samana Developers"
+
+                    payment_plans:
+                      type: array
+                      description: "Structured payment plan schedules."
+                      items:
+                        type: object
+                        properties:
+                          down_payment_percent:
+                            type: integer
+                            description: "Percentage due at down-payment."
+                            example: 20
+                          pre_handover_percent:
+                            type: integer
+                            description: "Percentage payable before handover."
+                            example: 56
+                          handover_percent:
+                            type: integer
+                            nullable: true
+                            description: "Percentage due at handover."
+                            example: 1
+                          post_handover_percent:
+                            type: integer
+                            nullable: true
+                            description: "Percentage due after handover."
+                            example: 23
+
+                    contact_methods:
+                      type: array
+                      description: "Supported communication channels for inquiries."
+                      items:
+                        type: string
+                        example: "whatsapp"
+
+                    indy_score:
+                      type: integer
+                      description: "Indy score."
+                      example: 645
+
+                    score:
+                      type: integer
+                      description: "Overall property quality score."
+                      example: 75
+
+                    city_level_score:
+                      type: integer
+                      description: "City-level ranking score."
+                      example: 3
+
+                    location_purpose_tier:
+                      type: integer
+                      description: "Tier based on location and purpose."
+                      example: 3
+
+                    meta:
+                      type: object
+                      description: "Metadata and lifecycle timestamps."
+                      properties:
+                        created_at:
+                          type: string
+                          format: date-time
+                          description: "Creation timestamp."
+                          example: "2025-06-12T11:21:01Z"
+                        updated_at:
+                          type: string
+                          format: date-time
+                          description: "Last update timestamp."
+                          example: "2025-06-17T04:21:00Z"
+                        reactivated_at:
+                          type: string
+                          format: date-time
+                          description: "Reactivation timestamp."
+                          example: "2025-06-12T11:21:01Z"
+                        product:
+                          type: string
+                          description: "Listing product tier."
+                          example: "premium"
+                        url:
+                          type: string
+                          format: uri
+                          description: "Property URL."
+                          example: "https://www.bayut.com/property/details-11902621.html"
+                        product_label:
+                          type: string
+                          description: "Label for the listing product."
+                          example: "default"
+                        source_id:
+                          type: integer
+                          description: "Internal source identifier."
+                          example: 1
+
+                    offplan_details:
+                      type: object
+                      description: "Details specific to off-plan properties."
+                      properties:
+                        sale_type:
+                          type: string
+                          description: "Type of off-plan sale (new, resale, direct_from_developer)."
+                          example: ""
+                        original_price:
+                          type: number
+                          nullable: true
+                          description: "Original listing price."
+                          example: null
+                        paid_price:
+                          type: number
+                          nullable: true
+                          description: "Amount already paid."
+                          example: null
+                        dld_waiver:
+                          type: boolean
+                          nullable: true
+                          description: "Any applicable DLD waiver code."
+                          example: null
+
+              count:
+                type: "integer"
+                description: "Total number of listings matching the criteria."
+                example: 1
+              page:
+                type: "integer"
+                description: "Current result page number."
+                example: 0

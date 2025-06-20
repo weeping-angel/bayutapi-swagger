@@ -31,12 +31,11 @@ paths:
   /locations_search?query={query}:
     $ref: './paths/locations_search.yaml'
 
-
+  /properties_search:
+    $ref: './paths/properties_search.yaml'
 
   /property/{property_id}:
     $ref: './paths/property_info.yaml'
-
-
 
 
   /agencies_by_locations?locations_ids={locations_ids}:
@@ -52,10 +51,6 @@ paths:
     $ref: './paths/developers_search.yaml'
 
 
-
-
-
-
   /agents_by_name?query={query}:
     $ref: './paths/agents_by_name.yaml'
 
@@ -69,10 +64,8 @@ paths:
     $ref: './paths/agent_info.yaml'
 
 
-
-
-
-
+  /transactions:
+    $ref: './paths/transactions.yaml'
 
   /amenities_search?query={query}:
     $ref: './paths/amenities_search.yaml'

@@ -1,0 +1,214 @@
+post:
+  summary: Transactions
+  
+  description: |
+    Fetch real estate transaction data based on custom filters like location, category, price, area, date range, and more.
+  
+  parameters:
+    - name: page
+      in: query
+      schema:
+        type: integer
+        example: 0
+      required: false
+      description: Pagination index (starting from 0).
+  
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            purpose:
+              type: string
+              example: "for-sale"
+              description: Transaction purpose (`for-sale`, `for-rent`).
+            locations_ids:
+              type: array
+              items:
+                type: integer
+              example: [10, 36, 21741]
+              description: List of location IDs to filter by.
+            category:
+              type: string
+              example: "residential"
+              description: |
+                Property category code to filter (`residential`,`commercial`,`villas`,`apartments`,
+                `offices`,`shops`,`warehouses`,`factories`,`labour-camp`,`commercial-buildings`,`commercial-properties`,
+                `residential-plots`,`commercial-plots`,`townhouses`,`residential-building`,`penthouse`,`hotel-apartments`,
+                `industrial-land`,`mixed-use-land`,`showrooms`,`commercial-villas`).
+            completion_status:
+              type: string
+              example: "completed"
+              description: Construction status (`completed`, `under-construction`).
+            contract_type:
+              type: string
+              example: "All"
+              description: Type of contract (`Renewal`, `New`, `All`).
+            sort_by:
+              type: string
+              example: "date"
+              description: Field by which to sort the results (e.g., `date`, `amount`, `rent`, `builtup_area`, `plot_area`, `beds`, `duration`).
+            order:
+              type: string
+              example: "desc"
+              description: Sort order (`asc` for ascending or `desc` for descending).
+            beds:
+              type: array
+              items:
+                type: integer
+              example: [1,2,3]
+              description: Allowed number of bedrooms.
+            area_min:
+              type: integer
+              example: 0
+              description: Minimum area in sqft.
+            area_max:
+              type: integer
+              example: 1000000
+              description: Maximum area in sqft.
+            price_min:
+              type: integer
+              example: 0
+              description: Minimum price in AED.
+            price_max:
+              type: integer
+              example: 1000000
+              description: Maximum price in AED.
+            start_date:
+              type: string
+              format: date
+              example: "2024-01-01"
+              description: Start date for filtering transactions (inclusive).
+            end_date:
+              type: string
+              format: date
+              example: "2025-01-01"
+              description: End date for filtering transactions (inclusive).
+            time_frame:
+              type: string
+              example: "12m"
+              description: Time frame for aggregation (`1m`,`3m`,`6m`,`12m`,`36m`).
+  responses:
+    "200":
+      description: A list of real estate transactions matching the filters.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              results:
+                type: array
+                description: List of matching property transactions.
+                items:
+                  type: object
+                  properties:
+                    amount:
+                      type: string
+                      example: "875000.00"
+                      description: Transaction amount in AED.
+                    category:
+                      type: string
+                      example: "Sales"
+                      description: Transaction Category.
+                    date:
+                      type: string
+                      format: date
+                      example: "2024-12-30"
+                      description: Transaction Date.
+                    property:
+                      type: object
+                      description: Details about the property involved in the transaction.
+                      properties:
+                        floor:
+                          type: string
+                          example: "5"
+                          description: Floor number of the property.
+                        beds:
+                          type: string
+                          example: "1"
+                          description: Number of bedrooms.
+                        type:
+                          type: string
+                          example: "apartments"
+                          description: Property type/category (e.g. apartments, villas, etc...).
+                        builtup_area:
+                          type: object
+                          properties:
+                            sqft:
+                              type: number
+                              example: 589.0
+                              description: Built-up area.
+                        plot_area:
+                          type: object
+                          properties:
+                            sqft:
+                              type: number
+                              nullable: true
+                              example: null
+                              description: Plot area (if available).
+                        occupancy_status:
+                          type: string
+                          example: "Vacant On Transfer"
+                          description: Occupancy status of the property.
+                    location:
+                      type: object
+                      description: Location details of the property.
+                      properties:
+                        id:
+                          type: integer
+                          example: 980
+                          description: Location's unique identifier.
+                        location:
+                          type: string
+                          example: "Marina Diamond 2"
+                          description: Location name.
+                        coordinates:
+                          type: object
+                          properties:
+                            latitude:
+                              type: number
+                              example: 25.069448
+                              description: Latitude.
+                            longitude:
+                              type: number
+                              example: 55.134892
+                              description: Longitude.
+                        full_location:
+                          type: string
+                          example: "Dubai Marina -> Marina Diamonds -> Marina Diamond 2"
+                          description: Full breadcrumb-style location path.
+                    agent_id:
+                      type: integer
+                      example: 2347968
+                      description: Agent ID associated with the transaction.
+                    status:
+                      type: string
+                      example: "Approved"
+                      description: Status of the transaction (e.g., Approved).
+                    contract:
+                      type: object
+                      description: Details of the contract (for rental transactions).
+                      properties:
+                        monthly_amount:
+                          type: string
+                          example: ""
+                          description: Monthly rent amount (if applicable).
+                        contract_type:
+                          type: string
+                          example: "Unknown"
+                          description: Type of contract (New, Renewal or Unknown).
+                        duration_months:
+                          type: string
+                          example: ""
+                          description: Rent duration in months (if applicable).
+              count:
+                type: integer
+                example: 20
+                description: Total number of results on the current page.
+              page:
+                type: integer
+                example: 0
+                description: Current page number of results.
+    
