@@ -54,7 +54,7 @@ paths:
   /agents_by_name?query={query}:
     $ref: './paths/agents_by_name.yaml'
 
-  /agents_by_filters?locations_ids={locations_ids}&purpose={purpose}&category={category}:
+  /agents_by_filters:
     $ref: './paths/agents_by_filters.yaml'
 
   /agents_in_agency/{agency_id}:
