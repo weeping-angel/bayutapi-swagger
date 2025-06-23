@@ -3,25 +3,25 @@ openapi: '3.0.2'
 info:
   title: Bayut API
   version: '1.0'
-  # x-twitter: 'https://twitter.com/medium_api'
-  # x-linkedin: 'https://www.linkedin.com/company/medium-api'
-  # x-logo:
-  #   url: https://mediumapi.com/imgs/logo/logo-dark-color.svg
+  x-twitter: 'https://x.com/bayut_api'
+  x-linkedin: 'https://www.linkedin.com/in/bayut-api/'
+  x-logo:
+    url: https://bayutapi.com/imgs/logo/bayut-api-logo-dark.svg
   description: |
     Bayut API is a property finder API that allows you to search for real estate properties in the UAE by scraping data from Bayut's Website (https://bayut.com).
     
     You can gather data related to properties, agencies, agents, developers, amenities, transactions, etc…
   contact:
-    name: 
+    name: Email
     email: bayut.restapi@gmail.com
-    url: 
+    url: https://bayutapi.com
 
-  # termsOfService: https://mediumapi.com/terms_of_use.html
+  termsOfService: https://bayutapi.com/terms_of_use.html
 
 
-# externalDocs:
-#   description: Read more
-#   url: 'https://mediumapi.com/documentation.html?utm_source=swagger_docs&utm_medium=external_docs&utm_campaign=api_reference'
+externalDocs:
+  description: Read more
+  url: 'https://bayutapi.com/documentation.html?utm_source=swagger_docs&utm_medium=external_docs&utm_campaign=api_reference'
 
 servers:
   - url: https://bayut-api1.p.rapidapi.com

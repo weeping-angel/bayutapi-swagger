@@ -133,6 +133,10 @@ post:
               format: "date"
               description: "Expected completion date (DD-MM-YYYY)."
               example: "31-12-2027"
+            sale_type:
+              type: "string"
+              description: "Type of off-plan sale (any, new, resale, by_developer)."
+              example: "any"
   responses:
     "200":
       description: "Returns a list of properties matching the search criteria."
