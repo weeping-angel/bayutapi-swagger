@@ -29,7 +29,7 @@ post:
               items:
                 type: integer
               example: [10, 36, 21741]
-              description: List of location IDs to filter by.
+              description: List of location IDs to filter by. (Must belong to Dubai)
             category:
               type: string
               example: "residential"
