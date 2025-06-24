@@ -26,7 +26,7 @@ get:
     - name: category
       in: query
       required: false
-      description: Property category code to filter agents (e.g., `residential`, `commercial`).
+      description: Property category code to filter agents (e.g., `residential`, `commercial`, `short_term_residential`, `long_term_residential`).
       schema:
         type: string
         default: "residential"
