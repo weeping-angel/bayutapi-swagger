@@ -63,7 +63,7 @@ get:
                     level:
                       type: string
                       description: |
-                        The granularity level of the location (e.g., country, city, community, sub_community, cluster, building).
+                        The granularity level of the location (e.g., country, city, community, sub_community, cluster, building, checkpoint).
                       example: building
                       enum:
                         - country
@@ -72,9 +72,10 @@ get:
                         - sub_community
                         - cluster
                         - building
+                        - checkpoint
                     full:
                       type: object
-                      description: The full hierarchy of this location (country → city → community → sub_community → cluster → building). 
+                      description: The full hierarchy of this location (country → city → community → sub_community → cluster → building → checkpoint). 
                       properties:
                         country:
                           type: object
