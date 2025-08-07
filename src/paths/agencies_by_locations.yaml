@@ -267,9 +267,9 @@ get:
                       example: 1
                       description: Internal agency scoring metric.
                     ex_status:
-                      type: boolean
-                      example: true
-                      description: Indicates if the agency is externally verified or exclusive.
+                      type: integer
+                      example: 0
+                      description: Ex Status
               count:
                 type: integer
                 example: 25

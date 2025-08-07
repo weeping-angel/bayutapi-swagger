@@ -258,9 +258,9 @@ get:
                       example: 1
                       description: Internal scoring metric representing agency's ranking or status.
                     ex_status:
-                      type: boolean
-                      example: true
-                      description: Flag indicating if the agency is externally verified/exclusive.
+                      type: integer
+                      example: 0
+                      description: Ex Status
               count:
                 type: integer
                 example: 25
