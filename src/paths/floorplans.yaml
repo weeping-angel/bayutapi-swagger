@@ -1,0 +1,108 @@
+get:
+  summary: Floorplans
+  
+  description: >
+      Returns either a list of floorplans or a list of child locations containing floorplans based on the provided `location_slug`.
+     
+      - If the location is very specific (e.g., a building), the `floorplans` list is filled and `child_locations` is empty.
+      
+      - If the location is high-level (e.g., a neighborhood), the `child_locations` list is filled and `floorplans` is empty.
+     
+      
+      Useful for retrieving detailed architectural layouts of properties.
+  
+  parameters:
+    - name: location_slug
+      in: query
+      required: true
+      description: Location slug (path-like string) identifying the area or building.
+      schema:
+        type: string
+        example:
+          - /abu-dhabi/al-reem-island/shams-abu-dhabi/shams-gate-district/the-gate-tower/the-gate-tower-2
+  
+  responses:
+    "200":
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              child_locations:
+                type: array
+                description: List of child locations that have floorplans.
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 3712
+                      description: Unique identifier for the location.
+                    name:
+                      type: string
+                      example: Dubai Marina Towers
+                      description: Name of the location.
+                    slug:
+                      type: string
+                      example: /dubai/dubai-marina/dubai-marina-towers
+                      description: Slug representing the child location.
+                    floorplans_count:
+                      type: integer
+                      example: 139
+                      description: Number of floorplans available for this child location.
+              floorplans:
+                type: array
+                description: List of available floorplans for the given location.
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 8805
+                      description: Unique identifier for the floorplan.
+                    beds:
+                      type: integer
+                      example: 2
+                      description: Number of bedrooms in the floorplan.
+                    baths:
+                      type: integer
+                      example: 3
+                      description: Number of bathrooms in the floorplan.
+                    category:
+                      type: array
+                      items:
+                        type: string
+                      example:
+                        - Residential
+                        - Apartments
+                      description: Categories the floorplan belongs to.
+                    state:
+                      type: string
+                      example: active
+                      description: Current state of the floorplan.
+                    2d_imgs:
+                      type: array
+                      items:
+                        type: string
+                        format: uri
+                      example:
+                        - https://images.bayut.com/thumbnails/73144811-800x600.webp
+                      description: List of 2D images of the floorplan.
+                    3d_imgs:
+                      type: array
+                      items:
+                        type: string
+                        format: uri
+                      example:
+                        - https://images.bayut.com/thumbnails/73149708-800x600.webp
+                      description: List of 3D images of the floorplan.
+                    models:
+                      type: array
+                      items:
+                        type: string
+                        format: uri
+                      example:
+                        - https://sketchfab.com/models/6f2aff3e989f461a9904162875bb9976/embed
+                      description: List of 3D model links for the floorplan.
+

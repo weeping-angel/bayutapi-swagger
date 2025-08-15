@@ -70,6 +70,9 @@ paths:
   /amenities_search?query={query}:
     $ref: './paths/amenities_search.yaml'
 
+  /floorplans?location_slug={location_slug}:
+    $ref: './paths/floorplans.yaml'
+
   
 # components:
 #   securitySchemes:
