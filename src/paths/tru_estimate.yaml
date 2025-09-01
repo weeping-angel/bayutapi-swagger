@@ -1,0 +1,235 @@
+get:
+  summary: TruEstimate
+  description: |
+    This endpoint delivers a property intelligence report combining current 
+    property details, comparable sales & rentals, AI-driven value estimates (TruEstimate/TruValue), 
+    and historical price trends to help users evaluate a property's true market 
+    position.
+
+    **Note:** Exactly **one identifier option** must be provided in query parameters:
+
+    - `location_id` + `unit_number`  
+    - `title_deed` + `year` + `property_type`  
+    - `oqood` + `year` + `property_type`  
+    - `dewa`  
+
+    If multiple identifiers are provided, the request will return `400 Bad Request`.
+    
+    Property type defaults to "unit" if not provided or invalid.
+
+  parameters:
+    - in: query
+      name: location_id
+      schema:
+        type: string
+      description: Location ID of the property building.
+      example: "15974"
+    - in: query
+      name: unit_number
+      schema:
+        type: string
+      description: Unit number within the building/location.
+      example: "101"
+    - in: query
+      name: title_deed
+      schema:
+        type: string
+      description: Title deed number of the property.
+      example: "25671"
+    - in: query
+      name: year
+      schema:
+        type: string
+      description: Year of the Title Deed or Oqood.
+      example: "2022"
+    - in: query
+      name: property_type
+      schema:
+        type: string
+        enum: [unit, villa, land]
+        default: unit
+      description: Property type - to be passed with title_deed or oqood. Defaults to "unit" if not provided or invalid.
+      example: "unit"
+    - in: query
+      name: oqood
+      schema:
+        type: string
+      description: Oqood number of the property.
+      example: "161920"
+    - in: query
+      name: dewa
+      schema:
+        type: string
+      description: DEWA number of the property.
+      example: "392315580"
+  responses:
+    "200":
+      description: |
+        Returns a comprehensive property intelligence report including:  
+        - Property details (bedrooms, area, type, community, etc.)
+        - Comparable sales and rentals from similar properties
+        - TruEstimate valuations for both sale and rental
+        - Two-year price trend data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              property_details:
+                type: object
+                properties:
+                  bedrooms:
+                    type: integer
+                    description: Number of bedrooms in the property
+                    example: 2
+                  total_area_sqft:
+                    type: number
+                    description: Total area of the property in square feet
+                    example: 1200.5
+                  type:
+                    type: string
+                    description: Bayut property type name
+                    example: "Apartment"
+                  community:
+                    type: string
+                    description: Community name where the property is located
+                    example: "Dubai Marina"
+                  completion_status:
+                    type: string
+                    description: Property completion status
+                    example: "completed"
+                  service_charge_per_sqft:
+                    type: number
+                    description: Service charge per square foot
+                    example: 8.5
+              comparables:
+                type: object
+                properties:
+                  sold:
+                    type: array
+                    description: List of similar properties that were sold
+                    items:
+                      type: object
+                      properties:
+                        price:
+                          type: number
+                          description: Sale price of the comparable property
+                          example: 1500000
+                        transaction_date:
+                          type: string
+                          description: Date when the transaction occurred
+                          example: "2024-01-15"
+                        total_area_sqft:
+                          type: number
+                          description: Total area in square feet
+                          example: 1200.5
+                        community_name:
+                          type: string
+                          description: Community name of the comparable property
+                          example: "Dubai Marina"
+                        floor:
+                          type: string
+                          nullable: true
+                          description: Floor number (if available)
+                          example: "10"
+                  rented:
+                    type: array
+                    description: List of similar properties that were rented
+                    items:
+                      type: object
+                      properties:
+                        rent_price:
+                          type: number
+                          description: Rental price of the comparable property
+                          example: 120000
+                        transaction_date:
+                          type: string
+                          description: Date when the rental contract was signed
+                          example: "2024-01-15"
+                        total_area_sqft:
+                          type: number
+                          description: Total area in square feet
+                          example: 1200.5
+                        community_name:
+                          type: string
+                          description: Community name of the comparable property
+                          example: "Dubai Marina"
+                        floor:
+                          type: string
+                          nullable: true
+                          description: Floor number (if available)
+                          example: "10"
+                        contract_duration_months:
+                          type: integer
+                          description: Duration of the rental contract in months
+                          example: 12
+              tru_estimate:
+                type: object
+                description: AI-driven property valuations
+                properties:
+                  sale:
+                    type: object
+                    description: Sale valuation details
+                    properties:
+                      price:
+                        type: number
+                        description: Estimated sale price
+                        example: 1500000
+                      price_per_sqft:
+                        type: number
+                        description: Estimated price per square foot
+                        example: 1250
+                      confidence:
+                        type: string
+                        # enum: [green, amber, red, yellow]
+                        description: Confidence level (color) of the estimate
+                        example: "green"
+                      6m_trend_percent:
+                        type: number
+                        description: 6-month price trend percentage
+                        example: 2.5
+                      min_price:
+                        type: number
+                        description: Minimum price in the trend range
+                        example: 1400000
+                      max_price:
+                        type: number
+                        description: Maximum price in the trend range
+                        example: 1600000
+                  rental:
+                    type: object
+                    description: Rental valuation details
+                    properties:
+                      rent:
+                        type: number
+                        description: Estimated annual rental value
+                        example: 120000
+                      gross_projection_percent:
+                        type: number
+                        description: Gross rental yield percentage
+                        example: 8.0
+                      net_yield_percent:
+                        type: number
+                        description: Net rental yield percentage
+                        example: 6.5
+                      annual_maintenance:
+                        type: number
+                        description: Annual maintenance costs
+                        example: 12000
+                      purchase_fees:
+                        type: number
+                        description: Purchase fees and costs
+                        example: 75000
+              2y_trend:
+                type: object
+                description: |
+                  Two-year historical price trend data. 
+                  Object with date strings as keys and price values.
+                  Contains the last 24 months of data.
+                additionalProperties:
+                  type: number
+                example:
+                  "2023-01": 1400000
+                  "2023-02": 1420000
+                  "2023-03": 1450000
+   
