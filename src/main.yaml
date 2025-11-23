@@ -73,8 +73,8 @@ paths:
   /floorplans?location_slug={location_slug}:
     $ref: './paths/floorplans.yaml'
 
-  /tru_estimate:
-    $ref: './paths/tru_estimate.yaml'
+  # /tru_estimate:
+  #   $ref: './paths/tru_estimate.yaml'
 
   
 # components:
